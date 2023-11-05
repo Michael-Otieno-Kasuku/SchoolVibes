@@ -1,0 +1,99 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SchoolVibe</title>
+    <!-- Link to Google Fonts for Nunito font styles -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Link to external CSS file for custom styles -->
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+
+<body>
+    <!-- Header Section -->
+    <header class="header">
+        <!-- Logo -->
+        <div class="logo">
+            <img src="{% static 'img/logo.png' %}" alt="SchoolVibeLogo">
+        </div>
+        <!-- Navigation Menu -->
+        <nav class="navigation">
+            <a href="#home" class="nav-item">Home</a>
+            <a href="#about" class="nav-item">About Us</a>
+            <a href="#contact" class="nav-item">Contact Us</a>
+            <a href="#faqs" class="nav-item">FAQs</a>
+        </nav>
+    </header>
+
+    <!-- Main Content Section -->
+    <main>
+        <!-- Home Section -->
+        <section id="home" class="hero">
+            <div class="text">
+                <h1 class="tagline">Welcome to SchoolVibe</h1>
+                <p>Your path to a successful future begins here!</p>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="features">
+            <div class="feature-icon">✨</div>
+            <h2 class="feature-title">Quality Education</h2>
+            <p class="feature-description">Just in time. We live not by constraint but by choice.</p>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section id="testimonials" class="testimonials">
+            <div class="testimonial-slider">
+                <!-- Testimonial 1 -->
+                <div class="testimonial">
+                    <p class="testimonial-text">SchoolVibe has provided me with an exceptional education and a great
+                        platform to explore my interests. I am grateful for the opportunities and experiences I gained
+                        here.</p>
+                    <p class="testimonial-author">James Opondo, Alumnus</p>
+                </div>
+                <!-- Testimonial 2 -->
+                <div class="testimonial">
+                    <p class="testimonial-text">The dedicated teachers and supportive environment at SchoolVibe made my
+                        learning journey truly enriching. I am proud to be an alumnus of this esteemed institution.</p>
+                    <p class="testimonial-author">Thomas Ouma, Alumnus</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Newsletter Section -->
+        <section id="newsletter" class="newsletter">
+            <h2 class="newsletter-title">Subscribe to Our Newsletter</h2>
+            <!-- Newsletter Form -->
+            <form class="newsletter-form" action="#" method="post">
+                <input type="email" class="input-email" placeholder="Enter your email address" required>
+                <button type="submit" class="subscribe-btn">Subscribe</button>
+            </form>
+        </section>
+    </main>
+
+    <!-- Footer Section -->
+    <footer class="footer">
+        <!-- Footer Logo -->
+        <div class="footer-logo">SchoolVibe</div>
+        <!-- Social Icons -->
+        <div class="footer-social">
+            <a href="#" class="social-icon">Facebook</a>
+            <a href="#" class="social-icon">Twitter</a>
+            <a href="#" class="social-icon">Instagram</a>
+        </div>
+        <!-- Footer Links -->
+        <div class="footer-links">
+            <a href="#" class="footer-link">Privacy Policy</a>
+            <a href="#" class="footer-link">Terms of Service</a>
+        </div>
+    </footer>
+
+    <!-- Link to the main JavaScript file for functionality -->
+    <script src="{% static 'js/main.js' %}"></script>
+</body>
+
+</html>

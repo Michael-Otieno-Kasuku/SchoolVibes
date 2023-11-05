@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.shortcuts import render
 
 def index(request):
-    return(HttpResponse("Welcome to UririConnect, Your path to a successful future begins here!"))
+    return render(request, 'index.html')
