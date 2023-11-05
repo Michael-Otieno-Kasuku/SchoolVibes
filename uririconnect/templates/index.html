@@ -1,4 +1,5 @@
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,25 +7,22 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>SchoolVibe</title>
-    <!-- Link to Google Fonts for Nunito font styles -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-    <!-- Link to external CSS file for custom styles -->
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 
 <body>
     <!-- Header Section -->
     <header class="header">
-        <!-- Logo -->
         <div class="logo">
-            <img src="{% static 'img/logo.png' %}" alt="SchoolVibeLogo">
+            <img src="{% static 'img/logo.png' %}" alt="SchoolVibe Logo">
         </div>
-        <!-- Navigation Menu -->
-        <nav class="navigation">
+        <nav class="navigation" role="navigation" aria-label="Main Navigation">
             <a href="#home" class="nav-item">Home</a>
             <a href="#about" class="nav-item">About Us</a>
             <a href="#contact" class="nav-item">Contact Us</a>
             <a href="#faqs" class="nav-item">FAQs</a>
+            <a href="#login" class="nav-item">Login/Signup</a>
         </nav>
     </header>
 
@@ -32,17 +30,25 @@
     <main>
         <!-- Home Section -->
         <section id="home" class="hero">
-            <div class="text">
+            <div class="hero-content">
                 <h1 class="tagline">Welcome to SchoolVibe</h1>
                 <p>Your path to a successful future begins here!</p>
+                <div class="quick-links">
+                    <a href="#features" class="quick-link">Features</a>
+                    <a href="#testimonials" class="quick-link">Testimonials</a>
+                    <a href="#newsletter" class="quick-link">Subscribe</a>
+                </div>
             </div>
         </section>
 
-        <!-- About Section -->
-        <section id="about" class="features">
-            <div class="feature-icon">✨</div>
-            <h2 class="feature-title">Quality Education</h2>
-            <p class="feature-description">Just in time. We live not by constraint but by choice.</p>
+        <!-- Features Section -->
+        <section id="features" class="features">
+            <div class="feature">
+                <div class="feature-icon">✨</div>
+                <h2 class="feature-title">Quality Education</h2>
+                <p class="feature-description">Just in time. We live not by constraint but by choice.</p>
+            </div>
+            <!-- Add more feature blocks as needed -->
         </section>
 
         <!-- Testimonials Section -->
@@ -61,15 +67,15 @@
                         learning journey truly enriching. I am proud to be an alumnus of this esteemed institution.</p>
                     <p class="testimonial-author">Thomas Ouma, Alumnus</p>
                 </div>
+                <!-- Add more testimonials as needed -->
             </div>
         </section>
 
         <!-- Newsletter Section -->
         <section id="newsletter" class="newsletter">
             <h2 class="newsletter-title">Subscribe to Our Newsletter</h2>
-            <!-- Newsletter Form -->
-            <form class="newsletter-form" action="#" method="post">
-                <input type="email" class="input-email" placeholder="Enter your email address" required>
+            <form class="newsletter-form" action="#" method="post" role="form" aria-label="Newsletter Subscription Form">
+                <input type="email" class="input-email" placeholder="Enter your email address" required aria-required="true">
                 <button type="submit" class="subscribe-btn">Subscribe</button>
             </form>
         </section>
@@ -77,22 +83,23 @@
 
     <!-- Footer Section -->
     <footer class="footer">
-        <!-- Footer Logo -->
         <div class="footer-logo">SchoolVibe</div>
-        <!-- Social Icons -->
-        <div class="footer-social">
+        <div class="footer-social" role="contentinfo" aria-label="Social Media Links">
             <a href="#" class="social-icon">Facebook</a>
             <a href="#" class="social-icon">Twitter</a>
             <a href="#" class="social-icon">Instagram</a>
         </div>
-        <!-- Footer Links -->
-        <div class="footer-links">
-            <a href="#" class="footer-link">Privacy Policy</a>
-            <a href="#" class="footer-link">Terms of Service</a>
+        <div class="footer-contact" role="contentinfo" aria-label="Contact Information">
+            <div class="contact-icon">✉️</div>
+            <div class="contact-info">info@schoolvibe.com</div>
+            <div class="contact-icon">📞</div>
+            <div class="contact-info">+1 234 567 890</div>
+        </div>
+        <div class="footer-copyright">
+            &copy; 2023 SchoolVibe. All Rights Reserved.
         </div>
     </footer>
 
-    <!-- Link to the main JavaScript file for functionality -->
     <script src="{% static 'js/main.js' %}"></script>
 </body>
 

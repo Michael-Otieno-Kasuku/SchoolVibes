@@ -89,6 +89,29 @@ body {
 }
 
 /* ==========================================================================
+   Quick Links Styles:
+   ========================================================================== */
+   .quick-links {
+    display: flex; /* Configures the quick links container as a flex container for its child elements */
+    justify-content: center; /* Centers child elements horizontally */
+    margin-top: 20px; /* Adds spacing at the top of the quick links section */
+}
+
+.quick-link {
+    text-decoration: none; /* Removes underlines from quick links */
+    color: #333; /* Sets the default color for quick links */
+    font-weight: bold; /* Applies bold font weight to quick links */
+    font-size: 18px; /* Sets the font size for quick links */
+    margin: 0 15px; /* Adds spacing around quick links */
+    transition: color 0.3s ease; /* Smoothens the color transition on hover */
+}
+
+.quick-link:hover {
+    color: #EF3B2D; /* Changes the color of quick links on hover */
+}
+
+
+/* ==========================================================================
    Features Section Styles:
    ========================================================================== */
 .features {
