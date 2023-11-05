@@ -23,6 +23,8 @@ from django.db import models
 class Roles(models.Model):
     role_id = models.AutoField(primary_key=True)
     role_name = models.CharField(max_length=50, null=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
 class Users(models.Model):
     user_id = models.AutoField(primary_key=True)
