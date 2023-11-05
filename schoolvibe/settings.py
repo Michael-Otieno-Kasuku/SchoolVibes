@@ -75,8 +75,12 @@ WSGI_APPLICATION = 'schoolvibe.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'uririconnect',
+        'USER': 'kasuku',
+        'PASSWORD': 'Student2023@Mmust',
+        'HOST': 'localhost',  # Set your PostgreSQL host address if it's not running on localhost
+        'PORT': '',  # Leave this empty to use the default PostgreSQL port (5432)
     }
 }
 
@@ -115,7 +119,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
