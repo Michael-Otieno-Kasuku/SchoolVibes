@@ -20,7 +20,7 @@ Note: Some fields, such as user_password, are intended to store hashed passwords
 
 from django.db import models
 
-class Roles(models.Model):
+class Role(models.Model):
     role_id = models.AutoField(primary_key=True)
     role_name = models.CharField(max_length=50, null=False)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -29,7 +29,7 @@ class Roles(models.Model):
     def __str__(self):
         return self.role_name
 
-class Users(models.Model):
+class User(models.Model):
     user_id = models.AutoField(primary_key=True)
     role_id = models.ForeignKey(Roles, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=50, null=False)
@@ -43,7 +43,7 @@ class Users(models.Model):
     def __str__(self):
         return f'{self.first_name} {self.last_name}  {self.email_address}'
 
-class Events(models.Model):
+class Event(models.Model):
     event_id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=100, null=False)
     event_description = models.TextField(null=True)
@@ -56,7 +56,7 @@ class Events(models.Model):
     def __str__(self):
         return f'{self.title} {self.event_description}' 
 
-class EventRegistrations(models.Model):
+class EventRegistration(models.Model):
     event_reg_id = models.AutoField(primary_key=True)
     event_id = models.ForeignKey(Events, on_delete=models.CASCADE)
     user_id = models.ForeignKey(Users, on_delete=models.CASCADE)
@@ -67,7 +67,7 @@ class EventRegistrations(models.Model):
     def __str__(self):
         return self.registration_date
 
-class Resources(models.Model):
+class Resource(models.Model):
     resource_id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=100, null=False)
     resource_description = models.TextField(null=True)
@@ -79,7 +79,7 @@ class Resources(models.Model):
     def __str__(self):
         return f'{self.title} {self.resource_description}'
 
-class Classes(models.Model):
+class Class(models.Model):
     class_id = models.AutoField(primary_key=True)
     class_name = models.CharField(max_length=50, null=False)
     teacher_id = models.ForeignKey(Users, on_delete=models.CASCADE)
@@ -89,7 +89,7 @@ class Classes(models.Model):
     def __str__(self):
         return self.class_name
 
-class Messages(models.Model):
+class Message(models.Model):
     message_id = models.AutoField(primary_key=True)
     sender_id = models.ForeignKey(Users, related_name='sender_messages', on_delete=models.CASCADE)
     receiver_id = models.ForeignKey(Users, related_name='receiver_messages', on_delete=models.CASCADE)
@@ -102,7 +102,7 @@ class Messages(models.Model):
     def __str__(self):
         return self.message_content
 
-class SecurityIncidents(models.Model):
+class SecurityIncident(models.Model):
     security_id = models.AutoField(primary_key=True)
     reporter_id = models.ForeignKey(Users, on_delete=models.CASCADE)
     incident_details = models.TextField(null=True)
@@ -114,7 +114,7 @@ class SecurityIncidents(models.Model):
     def __str__(self):
         return self.incident_details
 
-class Assignments(models.Model):
+class Assignment(models.Model):
     assignment_id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=100, null=False)
     assignment_description = models.TextField(null=True)
@@ -127,7 +127,7 @@ class Assignments(models.Model):
     def __str__(self):
         return f'{self.title} {self.assignment_description}'
 
-class Grades(models.Model):
+class Grade(models.Model):
     grade_id = models.AutoField(primary_key=True)
     assignment_id = models.ForeignKey(Assignments, on_delete=models.CASCADE)
     student_id = models.ForeignKey(Users, on_delete=models.CASCADE)
