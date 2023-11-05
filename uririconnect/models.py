@@ -27,7 +27,7 @@ class Roles(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.role_id, self.role_name, self.created_at, self.updated_at
+        return self.role_name
 
 class Users(models.Model):
     user_id = models.AutoField(primary_key=True)
@@ -41,7 +41,7 @@ class Users(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.user_id, self.role_id, self.first_name, self.last_name, self.email_address, self.user_password, self.phone_number, self.created_at, self.updated_at
+        return f'{self.first_name} {self.last_name}  {self.email_address}'
 
 class Events(models.Model):
     event_id = models.AutoField(primary_key=True)
@@ -54,7 +54,7 @@ class Events(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.event_id, self.title, self.event_description, self.event_date, self.event_location, self.organizer_id, self.created_at, self.updated_at
+        return f'{self.title} {self.event_description}' 
 
 class EventRegistrations(models.Model):
     event_reg_id = models.AutoField(primary_key=True)
@@ -65,7 +65,7 @@ class EventRegistrations(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.event_reg_id, self.event_id, self.user_id, self.registration_date, self.created_at, self.updated_at
+        return self.registration_date
 
 class Resources(models.Model):
     resource_id = models.AutoField(primary_key=True)
@@ -77,7 +77,7 @@ class Resources(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.resource_id, self.title, self.resource_description, self.file_path, self.uploaded_by, self.created_at, self.updated_at
+        return f'{self.title} {self.resource_description}'
 
 class Classes(models.Model):
     class_id = models.AutoField(primary_key=True)
@@ -87,7 +87,7 @@ class Classes(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.class_id, self.class_name, self.teacher_id, self.created_at, self.updated_at
+        return self.class_name
 
 class Messages(models.Model):
     message_id = models.AutoField(primary_key=True)
@@ -100,7 +100,7 @@ class Messages(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.message_id, self.sender_id, self.receiver_id, self.message_content, self.sent_at, self.is_read, self.created_at, self.updated_at
+        return self.message_content
 
 class SecurityIncidents(models.Model):
     security_id = models.AutoField(primary_key=True)
@@ -112,7 +112,7 @@ class SecurityIncidents(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.security_id, self.reporter_id, self.incident_details, self.time_reported, self.report_status, self.created_at, self.updated_at
+        return self.incident_details
 
 class Assignments(models.Model):
     assignment_id = models.AutoField(primary_key=True)
@@ -125,7 +125,7 @@ class Assignments(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.assignment_id, self.title, self.assignment_description, self.due_date, self.teacher_id, self.class_id, self.created_at, self.updated_at
+        return f'{self.title} {self.assignment_description}'
 
 class Grades(models.Model):
     grade_id = models.AutoField(primary_key=True)
@@ -137,4 +137,4 @@ class Grades(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.grade_id, self.assignment_id, self.student_id, self.score, self.grading_date,self.created_at, self.updated_at
+        return self.score
