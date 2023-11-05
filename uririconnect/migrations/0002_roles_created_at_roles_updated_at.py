@@ -13,7 +13,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='roles',
             name='created_at',
-            field=models.DateTimeField(auto_now_add=True, default=timezone.localtime(timezone.now(), timezone=timezone.get_timezone('Africa/Nairobi'))),
+            field=models.DateTimeField(auto_now_add=True, default=timezone.localtime(timezone.now(), timezone=timezone.get_default_timezone())),
             preserve_default=False,
         ),
         migrations.AddField(
