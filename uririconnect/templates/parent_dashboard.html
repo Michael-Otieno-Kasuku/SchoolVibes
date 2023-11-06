@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parent Dashboard</title>
+    <link rel="stylesheet" href="{% static 'parent_dashboard.css' %}">
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <div class="greeting">
+            <h1>Welcome, dear Parent!</h1>
+        </div>
+        <div class="overview-section">
+            <!-- Display key data and overview here -->
+        </div>
+        <div class="action-icons">
+            <div class="icon" id="communicate-icon">
+                <!-- Icon for communicating with teachers -->
+            </div>
+            <div class="icon" id="academic-reports-icon">
+                <!-- Icon for viewing academic reports -->
+            </div>
+            <div class="icon" id="register-events-icon">
+                <!-- Icon for registering for events -->
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'parent_dashboard.js' %}"></script>
+</body>
+
+</html>
