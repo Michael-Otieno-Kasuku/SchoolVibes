@@ -1,25 +1,95 @@
-/* register.css */
+/* Add your CSS styles for the registration form here */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
 .register-form {
     max-width: 400px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 40px;
     background-color: #ffffff;
     border-radius: 10px;
-    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.1);
+    text-align: center;
 }
 
 .form-group {
     margin-bottom: 20px;
+    text-align: left;
+}
+
+.form-group label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-control {
+    width: calc(100% - 20px);
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
 
 .btn-primary {
     background-color: #007bff;
     border: none;
-    transition: background-color 0.3s ease; /* Smooth transition on hover */
+    color: #fff;
+    padding: 12px 20px;
+    font-size: 18px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 .btn-primary:hover {
     background-color: #0056b3;
 }
 
-/* Add more styles as needed */
+.error-message {
+    color: #ff0000;
+    font-size: 14px;
+}
+
+/* Custom styles for the combobox */
+.form-control.select2-container {
+    width: 100%;
+}
+
+.select2-container--default .select2-selection--single {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    height: 40px;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 40px;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    line-height: 40px;
+    padding-left: 10px;
+}
+
+/* Styling the dropdown list */
+.select2-container--default .select2-results__option {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    transition: background-color 0.3s ease;
+}
+
+.select2-container--default .select2-results__option:last-child {
+    border-bottom: none;
+}
+
+.select2-container--default .select2-results__option:hover {
+    background-color: #f0f0f0;
+    cursor: pointer;
+}

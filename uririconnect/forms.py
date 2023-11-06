@@ -1,11 +1,21 @@
 from django import forms
 from .models import User, Role
-import re
 
 class UserRegistrationForm(forms.ModelForm):
-    role_id = forms.ModelChoiceField(queryset=Role.objects.all(), to_field_name='role_id', empty_label=None)
-    user_password = forms.CharField(widget=forms.PasswordInput(), min_length=8)
-    confirm_password = forms.CharField(widget=forms.PasswordInput(), min_length=8)
+    role_id = forms.ModelChoiceField(
+        queryset=Role.objects.all(),
+        to_field_name='role_id',
+        empty_label=None,
+        widget=forms.Select(attrs={'class': 'form-control select2-container'})
+    )
+    user_password = forms.CharField(
+        widget=forms.PasswordInput(attrs={'class': 'form-control'}),
+        min_length=8
+    )
+    confirm_password = forms.CharField(
+        widget=forms.PasswordInput(attrs={'class': 'form-control'}),
+        min_length=8
+    )
 
     class Meta:
         model = User

@@ -3,7 +3,6 @@
 
 {% block content %}
 <link rel="stylesheet" href="{% static 'css/register.css' %}">
-<script src="{% static 'js/register.js' %}"></script>
 <div class="container">
     <div class="register-form mt-5">
         <h2 class="mb-4">Register</h2>
@@ -13,34 +12,41 @@
             <div class="form-group">
                 <label for="{{ form.role_id.id_for_label }}">Role:</label>
                 {{ form.role_id }}
+                <span id="role_id-error" class="error-message"></span>
             </div>
             <div class="form-group">
                 <label for="{{ form.first_name.id_for_label }}">First Name:</label>
                 {{ form.first_name }}
-                {{ form.first_name.errors }}
+                <span id="first_name-error" class="error-message"></span>
             </div>
             <div class="form-group">
                 <label for="{{ form.last_name.id_for_label }}">Last Name:</label>
                 {{ form.last_name }}
-                {{ form.last_name.errors }}
+                <span id="last_name-error" class="error-message"></span>
             </div>
             <div class="form-group">
                 <label for="{{ form.email_address.id_for_label }}">Email Address:</label>
                 {{ form.email_address }}
-                {{ form.email_address.errors }}
+                <span id="email_address-error" class="error-message"></span>
             </div>
             <div class="form-group">
                 <label for="{{ form.user_password.id_for_label }}">Password:</label>
                 {{ form.user_password }}
-                {{ form.user_password.errors }}
+                <span id="user_password-error" class="error-message"></span>
+            </div>
+            <div class="form-group">
+                <label for="{{ form.confirm_password.id_for_label }}">Confirm Password:</label>
+                {{ form.confirm_password }}
+                <span id="confirm_password-error" class="error-message"></span>
             </div>
             <div class="form-group">
                 <label for="{{ form.phone_number.id_for_label }}">Phone Number:</label>
                 {{ form.phone_number }}
-                {{ form.phone_number.errors }}
+                <span id="phone_number-error" class="error-message"></span>
             </div>
             <button type="submit" class="btn btn-primary btn-block mt-3">Register</button>
         </form>
     </div>
 </div>
+<script src="{% static 'js/register.js' %}"></script>
 {% endblock %}
