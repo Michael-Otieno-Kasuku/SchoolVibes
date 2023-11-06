@@ -45,3 +45,16 @@ class UserRegistrationForm(forms.ModelForm):
             raise forms.ValidationError("Password must be at least 8 characters long and contain both letters and numbers.")
 
         return cleaned_data
+
+
+class CustomPasswordResetForm(forms.Form):
+    email = forms.EmailField(
+        max_length=254,
+        widget=forms.EmailInput(attrs={'class': 'form-control'}),
+    )
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if email and not User.objects.filter(email_address=email).exists():
+            raise forms.ValidationError("Email address not found.")
+        return email
+

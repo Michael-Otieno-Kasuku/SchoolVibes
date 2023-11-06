@@ -1,10 +1,11 @@
 from django.urls import reverse_lazy
+from django.views import View
 from django.shortcuts import render, redirect
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login, authenticate
+from django.http import JsonResponse
+from .forms import CustomPasswordResetForm
 from .models import User
 from django.contrib.auth.views import PasswordResetView
-from django.contrib.auth.forms import PasswordResetForm  # Import PasswordResetForm
 
 
 def index(request):
@@ -46,10 +47,47 @@ def register_view(request):
     return render(request, 'register.html', {'form': form})
 
 
+from django.shortcuts import render, redirect
+from .forms import CustomPasswordResetForm  # Import your custom password reset form if needed
+from django.contrib import messages
+from django.core.mail import send_mail
 
-class CustomPasswordResetView(PasswordResetView):
-    form_class = PasswordResetForm  # Assuming you have a custom PasswordResetForm defined
-    email_template_name = 'password_reset_email.html'
-    subject_template_name = 'password_reset_subject.txt'
-    success_url = reverse_lazy('password_reset_done')
+def custom_password_reset_view(request):
+    if request.method == 'POST':
+        form = CustomPasswordResetForm(request.POST)
+        if form.is_valid():
+            # Get the email address from the form data
+            email = form.cleaned_data.get('email')
+            
+            # Implement your custom logic here, e.g., sending a password reset email
+            # Send an email with reset instructions (you can customize this part)
+            # Example using Django's send_mail function (configure your email settings in settings.py):
+            # send_mail(
+            #     'Password Reset',
+            #     'Reset your password by clicking on the following link: [Reset Link]',
+            #     'from@example.com',  # Sender's email address
+            #     [email],  # Recipient's email address (extracted from the form)
+            #     fail_silently=False,
+            # )
+            
+            # Optionally, you can redirect the user to a password reset confirmation page
+            # Redirect to a success page or show a success message (customize as needed)
+            messages.success(request, 'Password reset instructions have been sent to your email.')
+            return redirect('custom_password_reset_done')  # Assuming 'custom_password_reset_done' is your URL name for the reset done page
+    else:
+        form = CustomPasswordResetForm()
+    
+    return render(request, 'password_reset_form.html', {'form': form})
+
+def custom_password_reset_done_view(request):
+    # Implement your custom password reset done logic here if needed
+    # For example, you can display a success message or redirect the user to a specific page
+    return render(request, 'password_reset_done.html')
+
+
+class CheckEmailExistenceView(View):
+    def post(self, request):
+        email = request.POST.get('email')
+        user_exists = User.objects.filter(email_address=email).exists()
+        return JsonResponse({'exists': user_exists})
 
