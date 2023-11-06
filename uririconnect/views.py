@@ -12,6 +12,10 @@ def index(request):
     return render(request, 'index.html')
 
 
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login
+from .models import User
+
 def login_view(request):
     if request.method == 'POST':
         email = request.POST['email']
@@ -19,8 +23,18 @@ def login_view(request):
         user = authenticate(request, email=email, password=password)
         if user is not None:
             login(request, user)
-            # Redirect to a success page
-            return redirect('success_page')  # Replace 'success_page' with the actual URL name
+            # Check user's role and redirect to the corresponding dashboard
+            if user.role_id.role_name == 'teacher':
+                return redirect('teacher_dashboard')
+            elif user.role_id.role_name == 'parent':
+                return redirect('parent_dashboard')
+            elif user.role_id.role_name == 'student':
+                return redirect('student_dashboard')
+            elif user.role_id.role_name == 'security_staff':
+                return redirect('security_staff_dashboard')
+            else:
+                # Handle other roles or provide a default redirect URL
+                pass
         else:
             # Return an error message to the template
             error_message = "Invalid email or password."
