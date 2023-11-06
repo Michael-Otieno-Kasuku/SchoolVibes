@@ -1,22 +1,65 @@
 body {
-    background-color: #f8f9fa;
-}
-
-.container {
+    background-color: #f5f5f5; /* Light gray background for improved readability */
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif; /* Use a common, readable font */
+}
+
+.center-container {
+    text-align: center;
 }
 
 .login-form {
-    background-color: white;
+    background: linear-gradient(to bottom, #4CAF50, #b30000); /* Gradient background from green to darker blue */
     padding: 40px;
     border-radius: 10px;
-    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
+    margin: 0 auto;
+    color: #fff; /* Text color */
 }
 
-h2 {
-    text-align: center;
+.h2 {
+    color: #000000; /* Green header for contrast */
+    font-size: 24px; /* Increase font size for emphasis */
+}
+
+.form-group {
     margin-bottom: 20px;
+}
+
+.form-control {
+    border-radius: 5px;
+    padding: 10px; /* Add padding for input fields */
+    width: 100%;
+    box-sizing: border-box; /* Include padding and border in width */
+    font-size: 16px; /* Increase font size for better readability */
+}
+
+.btn-primary {
+    background: linear-gradient(to bottom, #0056b3, #003366); /* Gradient button background from darker blue to even darker blue */
+    border: none;
+    color: #fff; /* Button text color */
+    padding: 12px 20px; /* Add padding for buttons */
+    cursor: pointer; /* Change cursor on hover for better feedback */
+    transition: background 0.3s ease; /* Smooth transition on hover */
+}
+
+.btn-primary:hover {
+    background: linear-gradient(to bottom, #003366, #001a33); /* Darker gradient on hover */
+}
+
+/* Styles for links */
+a {
+    color: #4CAF50; /* Green link color for contrast */
+    text-decoration: none; /* Remove underline */
+    transition: color 0.3s ease; /* Smooth color transition on hover */
+}
+
+a:hover {
+    color: #0080b3; /* Darker link color on hover */
 }

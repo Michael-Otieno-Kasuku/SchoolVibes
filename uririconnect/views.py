@@ -1,8 +1,11 @@
+from django.urls import reverse_lazy
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login, authenticate
 from .models import User
 from django.contrib.auth.views import PasswordResetView
+from django.contrib.auth.forms import PasswordResetForm  # Import PasswordResetForm
+
 
 def index(request):
     return render(request, 'index.html')
