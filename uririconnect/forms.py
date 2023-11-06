@@ -1,6 +1,18 @@
 from django import forms
 from .models import User, Role
 
+
+class UserLoginForm(forms.Form):
+    email = forms.EmailField(
+        widget=forms.EmailInput(attrs={'class': 'form-control'}),
+        required=True
+    )
+    password = forms.CharField(
+        widget=forms.PasswordInput(attrs={'class': 'form-control'}),
+        required=True
+    )
+
+
 class UserRegistrationForm(forms.ModelForm):
     role_id = forms.ModelChoiceField(
         queryset=Role.objects.all(),

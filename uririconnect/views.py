@@ -3,48 +3,44 @@ from django.views import View
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
 from django.http import JsonResponse
-from .forms import CustomPasswordResetForm
+from .forms import CustomPasswordResetForm, UserRegistrationForm
 from .models import User
 from django.contrib.auth.views import PasswordResetView
-
+from django.http import HttpResponse  # Import HttpResponse for testing
+from .forms import UserLoginForm  # Import your UserLoginForm
 
 def index(request):
     return render(request, 'index.html')
 
 
-from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
-from .models import User
-
 def login_view(request):
     if request.method == 'POST':
-        email = request.POST['email']
-        password = request.POST['password']
-        user = authenticate(request, email=email, password=password)
-        if user is not None:
-            login(request, user)
-            # Check user's role and redirect to the corresponding dashboard
-            if user.role_id.role_name == 'teacher':
-                return redirect('teacher_dashboard')
-            elif user.role_id.role_name == 'parent':
-                return redirect('parent_dashboard')
-            elif user.role_id.role_name == 'student':
-                return redirect('student_dashboard')
-            elif user.role_id.role_name == 'security_staff':
-                return redirect('security_staff_dashboard')
+        form = UserLoginForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password']
+            user = User.objects.filter(email_address=email, user_password=password).first()
+
+            if user:
+                # User is authenticated, set the user in the session and redirect
+                request.session['user_id'] = user.user_id
+                if user.role_id.role_name == 'teacher':
+                    return redirect('teacher_dashboard')
+                elif user.role_id.role_name == 'parent':
+                    return redirect('parent_dashboard')
+                elif user.role_id.role_name == 'student':
+                    return redirect('student_dashboard')
+                elif user.role_id.role_name == 'security_staff':
+                    return redirect('security_staff_dashboard')
             else:
-                # Handle other roles or provide a default redirect URL
-                pass
-        else:
-            # Return an error message to the template
-            error_message = "Invalid email or password."
-            return render(request, 'login.html', {'error_message': error_message})
-    return render(request, 'login.html')
+                # Authentication failed, show error message
+                error_message = "Invalid email or password."
+                return render(request, 'login.html', {'form': form, 'error_message': error_message})
+    else:
+        form = UserLoginForm()
 
+    return render(request, 'login.html', {'form': form})
 
-from django.shortcuts import render, redirect
-from .forms import UserRegistrationForm
-from django.contrib.auth import login
 
 def register_view(request):
     if request.method == 'POST':
