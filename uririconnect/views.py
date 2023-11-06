@@ -100,3 +100,8 @@ def parent_dashboard(request):
     # Retrieve the logged-in parent user (you need to implement the authentication logic)
     user = User.objects.get(pk=request.user.id)
     return render(request, 'parent_dashboard.html', {'user': user})
+
+def student_dashboard(request):
+    # Retrieve the logged-in student user (you need to implement the authentication logic)
+    user = User.objects.get(pk=request.user.id)
+    return render(request, 'student_dashboard.html', {'user': user})
