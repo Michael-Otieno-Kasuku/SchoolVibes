@@ -46,3 +46,11 @@ body {
 #register-events-icon {
     background-color: #dc3545; /* Red color for event registration */
 }
+
+/* Media Query for Mobile Devices */
+@media (max-width: 768px) {
+    .icon {
+        width: 80px;
+        height: 80px;
+    }
+}

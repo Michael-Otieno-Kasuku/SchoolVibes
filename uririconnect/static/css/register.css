@@ -93,3 +93,19 @@ body {
     background-color: #f0f0f0;
     cursor: pointer;
 }
+
+/* Media Query for Mobile Devices */
+@media (max-width: 768px) {
+    .register-form {
+        padding: 15px;
+    }
+
+    .form-control {
+        font-size: 14px;
+    }
+
+    .btn-primary {
+        padding: 10px 15px;
+        font-size: 16px;
+    }
+}

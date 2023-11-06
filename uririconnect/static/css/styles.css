@@ -414,3 +414,35 @@ body {
 .fade-in {
     animation: fadeIn 1s ease-in-out;
 }
+
+/* Media Queries for Mobile Devices */
+@media only screen and (max-width: 768px) {
+    /* Adjust styles for smaller screens */
+    .header {
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+    }
+
+    .navigation {
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    .nav-item {
+        font-size: 16px;
+    }
+
+    .hero {
+        height: 200px;
+        font-size: 1.5em;
+    }
+
+    .tagline {
+        font-size: 1.5em;
+    }
+
+    .quick-link {
+        font-size: 14px;
+    }
+}

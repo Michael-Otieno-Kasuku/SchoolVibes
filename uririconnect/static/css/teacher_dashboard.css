@@ -1,22 +1,29 @@
+/* Add your CSS styles here */
 body {
     font-family: Arial, sans-serif;
     background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
 }
 
 .dashboard-container {
-    max-width: 1200px;
+    max-width: 100%;
     margin: 0 auto;
     padding: 20px;
+    box-sizing: border-box;
 }
 
 .welcome-message {
     text-align: center;
     margin-bottom: 20px;
+    font-size: 24px;
 }
 
 .action-cards {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-around;
+    gap: 20px;
 }
 
 .card {
@@ -25,13 +32,20 @@ body {
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
-    width: 30%;
+    width: 100%;
     cursor: pointer;
     transition: transform 0.3s ease;
+    box-sizing: border-box;
 }
 
 .card:hover {
     transform: translateY(-5px);
+}
+
+#upload-assignment-card,
+#communicate-card,
+#schedule-card {
+    margin-top: 20px;
 }
 
 #upload-assignment-card {
@@ -47,4 +61,26 @@ body {
 #schedule-card {
     background-color: #f44336;
     color: white;
+}
+
+/* Media Query for Mobile Devices */
+@media (max-width: 768px) {
+    .card {
+        width: calc(50% - 20px);
+    }
+
+    .welcome-message {
+        font-size: 20px;
+    }
+}
+
+/* Media Query for Smaller Mobile Devices */
+@media (max-width: 480px) {
+    .card {
+        width: 100%;
+    }
+
+    .welcome-message {
+        font-size: 18px;
+    }
 }

@@ -105,3 +105,8 @@ def student_dashboard(request):
     # Retrieve the logged-in student user (you need to implement the authentication logic)
     user = User.objects.get(pk=request.user.id)
     return render(request, 'student_dashboard.html', {'user': user})
+
+def security_staff_dashboard(request):
+    # Retrieve the logged-in student user (you need to implement the authentication logic)
+    user = User.objects.get(pk=request.user.id)
+    return render(request, 'security_staff_dashboard.html', {'user': user})

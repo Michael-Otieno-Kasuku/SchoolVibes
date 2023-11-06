@@ -48,3 +48,18 @@ body {
     font-size: 18px;
     margin-bottom: 10px;
 }
+
+/* Media Query for Mobile Devices */
+@media (max-width: 768px) {
+    .incident-report-form {
+        padding: 10px;
+    }
+
+    .incident-report-form textarea {
+        font-size: 14px;
+    }
+
+    .emergency-contact-numbers li {
+        font-size: 14px;
+    }
+}
