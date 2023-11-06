@@ -27,20 +27,24 @@ def login_view(request):
     return render(request, 'login.html')
 
 
+from django.shortcuts import render, redirect
+from .forms import UserRegistrationForm
+from django.contrib.auth import login
+
 def register_view(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = UserRegistrationForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
-            # You can set additional fields from your User model here if needed
+            user.set_password(form.cleaned_data['user_password'])  # Set password using set_password method
             user.save()
-            # Log the user in
             login(request, user)
             # Redirect to a success page or home page
             return redirect('registration_success')  # Assuming 'registration_success' is the success page URL name
     else:
-        form = UserCreationForm()
+        form = UserRegistrationForm()
     return render(request, 'register.html', {'form': form})
+
 
 
 class CustomPasswordResetView(PasswordResetView):

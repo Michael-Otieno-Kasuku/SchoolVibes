@@ -1,5 +1,4 @@
 /* register.css */
-/* Add your CSS styles for the registration form here */
 .register-form {
     max-width: 400px;
     margin: 0 auto;
@@ -16,8 +15,11 @@
 .btn-primary {
     background-color: #007bff;
     border: none;
+    transition: background-color 0.3s ease; /* Smooth transition on hover */
 }
 
 .btn-primary:hover {
     background-color: #0056b3;
 }
+
+/* Add more styles as needed */

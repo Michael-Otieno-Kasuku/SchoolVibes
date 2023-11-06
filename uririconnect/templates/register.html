@@ -1,30 +1,43 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
+<link rel="stylesheet" href="{% static 'css/register.css' %}">
+<script src="{% static 'js/register.js' %}"></script>
 <div class="container">
     <div class="register-form mt-5">
         <h2 class="mb-4">Register</h2>
-        <form method="post" action="{% url 'register' %}">
+        <form method="post" id="registration-form">
             {% csrf_token %}
+            {{ form.non_field_errors }}
             <div class="form-group">
-                {{ form.first_name.label_tag }}
+                <label for="{{ form.role_id.id_for_label }}">Role:</label>
+                {{ form.role_id }}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.first_name.id_for_label }}">First Name:</label>
                 {{ form.first_name }}
+                {{ form.first_name.errors }}
             </div>
             <div class="form-group">
-                {{ form.last_name.label_tag }}
+                <label for="{{ form.last_name.id_for_label }}">Last Name:</label>
                 {{ form.last_name }}
+                {{ form.last_name.errors }}
             </div>
             <div class="form-group">
-                {{ form.email_address.label_tag }}
+                <label for="{{ form.email_address.id_for_label }}">Email Address:</label>
                 {{ form.email_address }}
+                {{ form.email_address.errors }}
             </div>
             <div class="form-group">
-                {{ form.user_password.label_tag }}
+                <label for="{{ form.user_password.id_for_label }}">Password:</label>
                 {{ form.user_password }}
+                {{ form.user_password.errors }}
             </div>
             <div class="form-group">
-                {{ form.phone_number.label_tag }}
+                <label for="{{ form.phone_number.id_for_label }}">Phone Number:</label>
                 {{ form.phone_number }}
+                {{ form.phone_number.errors }}
             </div>
             <button type="submit" class="btn btn-primary btn-block mt-3">Register</button>
         </form>
