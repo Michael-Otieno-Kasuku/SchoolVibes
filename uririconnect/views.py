@@ -11,8 +11,6 @@ from .forms import UserLoginForm  # Import your UserLoginForm
 
 def index(request):
     return render(request, 'index.html')
-
-
 def login_view(request):
     if request.method == 'POST':
         form = UserLoginForm(request.POST)
@@ -24,7 +22,7 @@ def login_view(request):
             if user:
                 # User is authenticated, set the user in the session and redirect
                 request.session['user_id'] = user.user_id
-                if user.role_id.role_name == 'teacher':
+                if user.role_id.role_name == 'Teacher':
                     return redirect('teacher_dashboard')
                 elif user.role_id.role_name == 'parent':
                     return redirect('parent_dashboard')
