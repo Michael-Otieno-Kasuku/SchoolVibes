@@ -1,22 +1,7 @@
 from django.contrib import admin
-from . models import Role
-from . models import User
-from . models import Event
-from . models import EventRegistration
-from . models import Resource
-from . models import Class
-from . models import Message
-from . models import SecurityIncident
-from . models import Assignment
-from . models import Grade
+from .models import Role, User, Event, EventRegistration, Resource, Class, Message, SecurityIncident, Assignment, Grade
 
-admin.site.register(Role)
-admin.site.register(User)
-admin.site.register(Event)
-admin.site.register(EventRegistration)
-admin.site.register(Resource)
-admin.site.register(Class)
-admin.site.register(Message)
-admin.site.register(SecurityIncident)
-admin.site.register(Assignment)
-admin.site.register(Grade)
+models_to_register = [Role, User, Event, EventRegistration, Resource, Class, Message, SecurityIncident, Assignment, Grade]
+
+for model in models_to_register:
+    admin.site.register(model)

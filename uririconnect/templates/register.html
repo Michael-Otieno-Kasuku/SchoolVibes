@@ -2,51 +2,23 @@
 {% load static %}
 
 {% block content %}
-<link rel="stylesheet" href="{% static 'css/register.css' %}">
-<div class="container">
-    <div class="register-form mt-5">
-        <h2 class="mb-4">Register</h2>
-        <form method="post" id="registration-form">
-            {% csrf_token %}
-            {{ form.non_field_errors }}
-            <div class="form-group">
-                <label for="{{ form.role_id.id_for_label }}">Role:</label>
-                {{ form.role_id }}
-                <span id="role_id-error" class="error-message"></span>
-            </div>
-            <div class="form-group">
-                <label for="{{ form.first_name.id_for_label }}">First Name:</label>
-                {{ form.first_name }}
-                <span id="first_name-error" class="error-message"></span>
-            </div>
-            <div class="form-group">
-                <label for="{{ form.last_name.id_for_label }}">Last Name:</label>
-                {{ form.last_name }}
-                <span id="last_name-error" class="error-message"></span>
-            </div>
-            <div class="form-group">
-                <label for="{{ form.email_address.id_for_label }}">Email Address:</label>
-                {{ form.email_address }}
-                <span id="email_address-error" class="error-message"></span>
-            </div>
-            <div class="form-group">
-                <label for="{{ form.user_password.id_for_label }}">Password:</label>
-                {{ form.user_password }}
-                <span id="user_password-error" class="error-message"></span>
-            </div>
-            <div class="form-group">
-                <label for="{{ form.confirm_password.id_for_label }}">Confirm Password:</label>
-                {{ form.confirm_password }}
-                <span id="confirm_password-error" class="error-message"></span>
-            </div>
-            <div class="form-group">
-                <label for="{{ form.phone_number.id_for_label }}">Phone Number:</label>
-                {{ form.phone_number }}
-                <span id="phone_number-error" class="error-message"></span>
-            </div>
-            <button type="submit" class="btn btn-primary btn-block mt-3">Register</button>
-        </form>
+    <link rel="stylesheet" href="{% static 'css/register.css' %}">
+    <div class="container">
+        <div class="register-form mt-5">
+            <h2 class="mb-4">Register</h2>
+            <form method="post" id="registration-form">
+                {% csrf_token %}
+                {{ form.non_field_errors }}
+                {% for field in form %}
+                    <div class="form-group">
+                        <label for="{{ field.id_for_label }}">{{ field.label }}:</label>
+                        {{ field }}
+                        <span id="{{ field.id_for_label|slugify }}-error" class="error-message"></span>
+                    </div>
+                {% endfor %}
+                <button type="submit" class="btn btn-primary btn-block mt-3">Register</button>
+            </form>
+        </div>
     </div>
-</div>
-<script src="{% static 'js/register.js' %}"></script>
+    <script src="{% static 'js/register.js' %}"></script>
 {% endblock %}

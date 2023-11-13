@@ -1,11 +1,11 @@
 body {
-    background-color: #f5f5f5; /* Light gray background for improved readability */
+    background-color: #f5f5f5;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
     margin: 0;
-    font-family: Arial, sans-serif; /* Use a common, readable font */
+    font-family: Arial, sans-serif;
 }
 
 .center-container {
@@ -13,19 +13,19 @@ body {
 }
 
 .login-form {
-    background: linear-gradient(to bottom, #4CAF50, #b30000); /* Gradient background from green to darker blue */
+    background: linear-gradient(to bottom, #4CAF50, #b30000);
     padding: 40px;
     border-radius: 10px;
-    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
     max-width: 400px;
     width: 100%;
     margin: 0 auto;
-    color: #fff; /* Text color */
+    color: #fff;
 }
 
-.h2 {
-    color: #000000; /* Green header for contrast */
-    font-size: 24px; /* Increase font size for emphasis */
+.login-form h2 {
+    color: #000;
+    font-size: 24px;
 }
 
 .form-group {
@@ -34,32 +34,32 @@ body {
 
 .form-control {
     border-radius: 5px;
-    padding: 10px; /* Add padding for input fields */
+    padding: 10px;
     width: 100%;
-    box-sizing: border-box; /* Include padding and border in width */
-    font-size: 16px; /* Increase font size for better readability */
+    box-sizing: border-box;
+    font-size: 16px;
 }
 
 .btn-primary {
-    background: linear-gradient(to bottom, #0056b3, #003366); /* Gradient button background from darker blue to even darker blue */
+    background: linear-gradient(to bottom, #0056b3, #003366);
     border: none;
-    color: #fff; /* Button text color */
-    padding: 12px 20px; /* Add padding for buttons */
-    cursor: pointer; /* Change cursor on hover for better feedback */
-    transition: background 0.3s ease; /* Smooth transition on hover */
+    color: #fff;
+    padding: 12px 20px;
+    cursor: pointer;
+    transition: background 0.3s ease;
 }
 
 .btn-primary:hover {
-    background: linear-gradient(to bottom, #003366, #001a33); /* Darker gradient on hover */
+    background: linear-gradient(to bottom, #003366, #001a33);
 }
 
 /* Styles for links */
 a {
-    color: #4CAF50; /* Green link color for contrast */
-    text-decoration: none; /* Remove underline */
-    transition: color 0.3s ease; /* Smooth color transition on hover */
+    color: #4CAF50;
+    text-decoration: none;
+    transition: color 0.3s ease;
 }
 
 a:hover {
-    color: #0080b3; /* Darker link color on hover */
+    color: #0080b3;
 }

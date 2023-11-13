@@ -1,355 +1,276 @@
-/* ==========================================================================
-   Reset Default Styles:
-   ========================================================================== */
-   body, h1, h2, h3, p, ul, li {
+/* Reset Default Styles */
+body, h1, h2, h3, p, ul, li {
     margin: 0;
     padding: 0;
 }
 
-/* ==========================================================================
-   General Styles:
-   ========================================================================== */
+/* General Styles */
 body {
-    font-family: 'Nunito', sans-serif; /* Sets the primary font for the entire document */
+    font-family: 'Nunito', sans-serif;
     margin: 0;
     padding: 0;
-    box-sizing: border-box; /* Ensures padding and border are included in the element's total width and height */
-    background-color: #f9f9f9; /* Sets the background color of the body */
-    color: #333; /* Sets the default text color */
+    box-sizing: border-box;
+    background-color: #f9f9f9;
+    color: #333;
 }
 
-/* ==========================================================================
-   Header Styles:
-   ========================================================================== */
+/* Header Styles */
 .header {
-    display: flex; /* Configures the header as a flex container for its child elements */
-    justify-content: space-between; /* Aligns child elements horizontally with space between them */
-    align-items: center; /* Centers child elements vertically */
-    padding: 20px 50px; /* Adds internal spacing inside the header */
-    background-color: #ffffff; /* Sets the background color of the header */
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow for depth */
-    animation: fadeIn 1s ease-in-out; /* Applies fade-in animation to the header */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 50px;
+    background-color: #ffffff;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 1s ease-in-out;
 }
 
-/* ==========================================================================
-   Logo Styles:
-   ========================================================================== */
+/* Logo Styles */
 .logo img {
-    max-width: 100%; /* Ensures the logo image does not exceed its parent container's width */
-    height: auto; /* Maintains the aspect ratio of the logo image */
+    max-width: 100%;
+    height: auto;
 }
 
-/* ==========================================================================
-   Navigation Styles:
-   ========================================================================== */
+/* Navigation Styles */
 .navigation {
-    display: flex; /* Configures the navigation as a flex container for its child elements */
-    gap: 30px; /* Specifies the gap between navigation items */
-    animation: slideInRight 1s ease-in-out; /* Applies slide-in animation to the navigation */
+    display: flex;
+    gap: 30px;
+    animation: slideInRight 1s ease-in-out;
 }
 
-/* ==========================================================================
-   Navigation Item Styles:
-   ========================================================================== */
+/* Navigation Item Styles */
 .nav-item {
-    text-decoration: none; /* Removes underlines from navigation links */
-    color: #333; /* Sets the default color for navigation links */
-    font-weight: bold; /* Applies bold font weight to navigation links */
-    font-size: 18px; /* Sets the font size for navigation links */
-    transition: color 0.3s ease; /* Smoothens the color transition on hover */
-}
-
-.nav-item:hover {
-    color: #EF3B2D; /* Changes the color of navigation links on hover */
-}
-
-/* ==========================================================================
-   Hero Section Styles:
-   ========================================================================== */
-.hero {
-    display: flex; /* Configures the hero section as a flex container for its child elements */
-    flex-direction: column; /* Arranges child elements vertically */
-    align-items: center; /* Centers child elements horizontally */
-    justify-content: center; /* Centers child elements vertically */
-    height: 400px; /* Sets the height of the hero section */
-    text-align: center; /* Centers text within the hero section */
-    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)) no-repeat center center/cover; /* Applies a gradient background to the hero section */
-    color: #ffffff; /* Sets the text color within the hero section */
-    animation: zoomIn 1s ease-in-out; /* Applies zoom-in animation to the hero section */
-}
-
-/* ==========================================================================
-   Tagline Styles:
-   ========================================================================== */
-.tagline {
-    font-size: 2.5em; /* Sets the font size for the tagline */
-    font-weight: bold; /* Applies bold font weight to the tagline */
-    margin-bottom: 10px; /* Adds spacing at the bottom of the tagline */
-    animation: fadeInUp 1s ease-in-out; /* Applies fade-in-up animation to the tagline */
-}
-
-/* ==========================================================================
-   Quick Links Styles:
-   ========================================================================== */
-   .quick-links {
-    display: flex; /* Configures the quick links container as a flex container for its child elements */
-    justify-content: center; /* Centers child elements horizontally */
-    margin-top: 20px; /* Adds spacing at the top of the quick links section */
-}
-
-.quick-link {
-    text-decoration: none; /* Removes underlines from quick links */
-    color: #333; /* Sets the default color for quick links */
-    font-weight: bold; /* Applies bold font weight to quick links */
-    font-size: 18px; /* Sets the font size for quick links */
-    margin: 0 15px; /* Adds spacing around quick links */
-    transition: color 0.3s ease; /* Smoothens the color transition on hover */
-}
-
-.quick-link:hover {
-    color: #EF3B2D; /* Changes the color of quick links on hover */
-}
-
-
-/* ==========================================================================
-   Features Section Styles:
-   ========================================================================== */
-.features {
-    text-align: center; /* Centers text within the features section */
-    padding: 60px 0; /* Adds internal spacing inside the features section */
-    animation: fadeIn 1s ease-in-out; /* Applies fade-in animation to the features section */
-}
-
-/* ==========================================================================
-   Feature Icon Styles:
-   ========================================================================== */
-.feature-icon {
-    font-size: 60px; /* Sets the font size for feature icons */
-    margin-bottom: 20px; /* Adds spacing at the bottom of feature icons */
-    animation: bounceIn 1s ease-in-out; /* Applies bounce-in animation to feature icons */
-}
-
-/* ==========================================================================
-   Feature Title Styles:
-   ========================================================================== */
-.feature-title {
-    font-size: 28px; /* Sets the font size for feature titles */
-    font-weight: bold; /* Applies bold font weight to feature titles */
-    margin-bottom: 10px; /* Adds spacing at the bottom of feature titles */
-    color: #EF3B2D; /* Sets the color of feature titles */
-    animation: slideInUp 1s ease-in-out; /* Applies slide-in-up animation to feature titles */
-}
-
-/* ==========================================================================
-   Feature Description Styles:
-   ========================================================================== */
-.feature-description {
-    color: #555; /* Sets the color of feature descriptions */
-    font-size: 18px; /* Sets the font size for feature descriptions */
-    margin-bottom: 30px; /* Adds spacing at the bottom of feature descriptions */
-    animation: fadeIn 1s ease-in-out; /* Applies fade-in animation to feature descriptions */
-}
-
-/* ==========================================================================
-   Testimonials Section Styles:
-   ========================================================================== */
-.testimonials {
-    padding: 60px 0; /* Adds internal spacing inside the testimonials section */
-    text-align: center; /* Centers text within the testimonials section */
-    background-color: #ffffff; /* Sets the background color of the testimonials section */
-    animation: fadeIn 1s ease-in-out; /* Applies fade-in animation to the testimonials section */
-}
-
-/* ==========================================================================
-   Testimonial Slider Styles:
-   ========================================================================== */
-.testimonial-slider {
-    display: flex; /* Configures the testimonial slider as a flex container for its child elements */
-    justify-content: center; /* Centers child elements horizontally */
-    align-items: center; /* Centers child elements vertically */
-    animation: slideInRight 1s ease-in-out; /* Applies slide-in-right animation to the testimonial slider */
-}
-
-/* ==========================================================================
-   Testimonial Styles:
-   ========================================================================== */
-.testimonial {
-    background-color: #f7f7f7; /* Sets the background color of testimonials */
-    padding: 40px; /* Adds internal spacing inside testimonials */
-    margin: 0 20px; /* Adds spacing around testimonials */
-    border-radius: 10px; /* Applies border-radius for rounded corners */
-    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow for depth */
-    text-align: center; /* Centers text within testimonials */
-    animation: slideInRight 1s ease-in-out; /* Applies slide-in-right animation to testimonials */
-}
-
-/* ==========================================================================
-   Testimonial Text Styles:
-   ========================================================================== */
-.testimonial-text {
-    font-size: 20px; /* Sets the font size for testimonial text */
-    color: #333; /* Sets the color of testimonial text */
-    margin-bottom: 20px; /* Adds spacing at the bottom of testimonial text */
-    animation: fadeIn 1s ease-in-out; /* Applies fade-in animation to testimonial text */
-}
-
-/* ==========================================================================
-   Testimonial Author Styles:
-   ========================================================================== */
-.testimonial-author {
-    font-size: 18px; /* Sets the font size for testimonial author names */
-    color: #EF3B2D; /* Sets the color of testimonial author names */
-    animation: fadeIn 1s ease-in-out; /* Applies fade-in animation to testimonial author names */
-}
-
-/* ==========================================================================
-   Newsletter Section Styles:
-   ========================================================================== */
-.newsletter {
-    background-color: #EF3B2D; /* Sets the background color of the newsletter section */
-    color: #fff; /* Sets the text color within the newsletter section */
-    text-align: center; /* Centers text within the newsletter section */
-    padding: 60px 0; /* Adds internal spacing inside the newsletter section */
-    animation: fadeIn 1s ease-in-out; /* Applies fade-in animation to the newsletter section */
-}
-
-/* ==========================================================================
-   Newsletter Title Styles:
-   ========================================================================== */
-.newsletter-title {
-    font-size: 36px; /* Sets the font size for the newsletter title */
-    font-weight: bold; /* Applies bold font weight to the newsletter title */
-    margin-bottom: 20px; /* Adds spacing at the bottom of the newsletter title */
-    animation: slideInUp 1s ease-in-out; /* Applies slide-in-up animation to the newsletter title */
-}
-
-/* ==========================================================================
-   Newsletter Form Styles:
-   ========================================================================== */
-.newsletter-form {
-    display: flex; /* Configures the newsletter form as a flex container for its child elements */
-    flex-direction: column; /* Arranges child elements vertically */
-    align-items: center; /* Centers child elements horizontally */
-    margin-top: 20px; /* Adds spacing at the top of the newsletter form */
-    animation: slideInUp 1s ease-in-out; /* Applies slide-in-up animation to the newsletter form */
-}
-
-.input-email {
-    padding: 15px; /* Sets padding for the email input field */
-    border: none; /* Removes border from the email input field */
-    border-radius: 5px; /* Applies border-radius for rounded corners */
-    margin-bottom: 20px; /* Adds spacing at the bottom of the email input field */
-    width: 300px; /* Sets the width of the email input field */
-    font-size: 18px; /* Sets the font size for the email input field */
-}
-
-.subscribe-btn {
-    background-color: #fff; /* Sets the background color of the subscribe button */
-    color: #EF3B2D; /* Sets the text color of the subscribe button */
-    border: none; /* Removes border from the subscribe button */
-    border-radius: 5px; /* Applies border-radius for rounded corners */
-    padding: 15px 30px; /* Sets padding for the subscribe button */
-    font-weight: bold; /* Applies bold font weight to the subscribe button text */
-    cursor: pointer; /* Changes the cursor to a pointer on hover */
-    transition: all 0.3s ease; /* Smoothens transition effects for the subscribe button */
-    font-size: 18px; /* Sets the font size for the subscribe button */
-}
-
-.subscribe-btn:hover {
-    background-color: #333; /* Changes the background color of the subscribe button on hover */
-    color: #fff; /* Changes the text color of the subscribe button on hover */
-    animation: bounce 0.5s ease-in-out; /* Applies bounce animation to the subscribe button on hover */
-}
-
-/* ==========================================================================
-   Footer Section Styles:
-   ========================================================================== */
-.footer {
-    background-color: #333; /* Sets the background color of the footer section */
-    color: #fff; /* Sets the text color within the footer section */
-    text-align: center; /* Centers text within the footer section */
-    padding: 40px 0; /* Adds internal spacing inside the footer section */
-    animation: fadeIn 1s ease-in-out; /* Applies fade-in animation to the footer section */
-}
-
-/* ==========================================================================
-   Footer Logo Styles:
-   ========================================================================== */
-.footer-logo {
-    font-size: 32px; /* Sets the font size for the footer logo */
-    font-weight: bold; /* Applies bold font weight to the footer logo */
-    margin-bottom: 20px; /* Adds spacing at the bottom of the footer logo */
-}
-
-/* ==========================================================================
-   Footer Social Icon Styles:
-   ========================================================================== */
-
-/* Adds spacing at the top of the footer social icons */
-.footer-social {
-    margin-top: 20px;
-    
-    /* Applies slide-in-up animation to the footer social icons */
-    animation: slideInUp 1s ease-in-out;
-}
-
-/* Sets the font size for footer social icons */
-.social-icon {
-    font-size: 28px;
-    
-    /* Adds spacing around footer social icons */
-    margin: 0 15px;
-    
-    /* Sets the color of footer social icons */
-    color: #EF3B2D;
-    
-    /* Removes underlines from footer social icons */
     text-decoration: none;
-    
-    /* Smoothens color transition on hover */
+    color: #333;
+    font-weight: bold;
+    font-size: 18px;
     transition: color 0.3s ease;
 }
 
-/* Changes color to white and applies bounce animation on hover */
+.nav-item:hover {
+    color: #EF3B2D;
+}
+
+/* Hero Section Styles */
+.hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 400px;
+    text-align: center;
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)) no-repeat center center/cover;
+    color: #ffffff;
+    animation: zoomIn 1s ease-in-out;
+}
+
+/* Tagline Styles */
+.tagline {
+    font-size: 2.5em;
+    font-weight: bold;
+    margin-bottom: 10px;
+    animation: fadeInUp 1s ease-in-out;
+}
+
+/* Quick Links Styles */
+.quick-links {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.quick-link {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+    font-size: 18px;
+    margin: 0 15px;
+    transition: color 0.3s ease;
+}
+
+.quick-link:hover {
+    color: #EF3B2D;
+}
+
+/* Features Section Styles */
+.features {
+    text-align: center;
+    padding: 60px 0;
+    animation: fadeIn 1s ease-in-out;
+}
+
+/* Feature Icon Styles */
+.feature-icon {
+    font-size: 60px;
+    margin-bottom: 20px;
+    animation: bounceIn 1s ease-in-out;
+}
+
+/* Feature Title Styles */
+.feature-title {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #EF3B2D;
+    animation: slideInUp 1s ease-in-out;
+}
+
+/* Feature Description Styles */
+.feature-description {
+    color: #555;
+    font-size: 18px;
+    margin-bottom: 30px;
+    animation: fadeIn 1s ease-in-out;
+}
+
+/* Testimonials Section Styles */
+.testimonials {
+    padding: 60px 0;
+    text-align: center;
+    background-color: #ffffff;
+    animation: fadeIn 1s ease-in-out;
+}
+
+/* Testimonial Slider Styles */
+.testimonial-slider {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: slideInRight 1s ease-in-out;
+}
+
+/* Testimonial Styles */
+.testimonial {
+    background-color: #f7f7f7;
+    padding: 40px;
+    margin: 0 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    animation: slideInRight 1s ease-in-out;
+}
+
+/* Testimonial Text Styles */
+.testimonial-text {
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 20px;
+    animation: fadeIn 1s ease-in-out;
+}
+
+/* Testimonial Author Styles */
+.testimonial-author {
+    font-size: 18px;
+    color: #EF3B2D;
+    animation: fadeIn 1s ease-in-out;
+}
+
+/* Newsletter Section Styles */
+.newsletter {
+    background-color: #EF3B2D;
+    color: #fff;
+    text-align: center;
+    padding: 60px 0;
+    animation: fadeIn 1s ease-in-out;
+}
+
+/* Newsletter Title Styles */
+.newsletter-title {
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    animation: slideInUp 1s ease-in-out;
+}
+
+/* Newsletter Form Styles */
+.newsletter-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+    animation: slideInUp 1s ease-in-out;
+}
+
+.input-email {
+    padding: 15px;
+    border: none;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    width: 300px;
+    font-size: 18px;
+}
+
+.subscribe-btn {
+    background-color: #fff;
+    color: #EF3B2D;
+    border: none;
+    border-radius: 5px;
+    padding: 15px 30px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 18px;
+}
+
+.subscribe-btn:hover {
+    background-color: #333;
+    color: #fff;
+    animation: bounce 0.5s ease-in-out;
+}
+
+/* Footer Section Styles */
+.footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 40px 0;
+    animation: fadeIn 1s ease-in-out;
+}
+
+/* Footer Logo Styles */
+.footer-logo {
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* Footer Social Icon Styles */
+.footer-social {
+    margin-top: 20px;
+    animation: slideInUp 1s ease-in-out;
+}
+
+.social-icon {
+    font-size: 28px;
+    margin: 0 15px;
+    color: #EF3B2D;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
 .social-icon:hover {
     color: #fff;
     animation: bounce 0.5s ease-in-out;
 }
 
-/* ==========================================================================
-   Footer Link Styles:
-   ========================================================================== */
-
-/* Adds spacing at the top of the footer links */
+/* Footer Link Styles */
 .footer-links {
     margin-top: 20px;
-    
-    /* Slide-in-up animation for footer links */
     animation: slideInUp 1s ease-in-out;
 }
 
-/* Sets the font size and color for footer links */
 .footer-link {
     font-size: 18px;
     color: #fff;
-    
-    /* Adds spacing around footer links */
     margin: 0 15px;
-    
-    /* Smoothens transition on hover */
     transition: all 0.3s ease;
 }
 
-/* Changes color to #EF3B2D on hover */
 .footer-link:hover {
     color: #EF3B2D;
 }
 
-/* ==========================================================================
-   Keyframe Animations:
-   ========================================================================== */
-
-/* Fades in elements */
+/* Keyframe Animations */
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -361,7 +282,6 @@ body {
     }
 }
 
-/* Slide-in-up animation */
 @keyframes slideInUp {
     from {
         transform: translateY(50px);
@@ -373,7 +293,6 @@ body {
     }
 }
 
-/* Slide-in-right animation */
 @keyframes slideInRight {
     from {
         transform: translateX(50px);
@@ -385,7 +304,6 @@ body {
     }
 }
 
-/* Zoom-in animation */
 @keyframes zoomIn {
     from {
         transform: scale(0.5);
@@ -397,7 +315,6 @@ body {
     }
 }
 
-/* Bounce animation */
 @keyframes bounce {
     0%, 20%, 50%, 80%, 100% {
         transform: translateY(0);
@@ -410,14 +327,12 @@ body {
     }
 }
 
-/* Fades in elements with upward motion */
 .fade-in {
     animation: fadeIn 1s ease-in-out;
 }
 
 /* Media Queries for Mobile Devices */
 @media only screen and (max-width: 768px) {
-    /* Adjust styles for smaller screens */
     .header {
         flex-direction: column;
         gap: 20px;

@@ -1,4 +1,4 @@
-/* Add your CSS styles here */
+/* Reset and General Styles */
 body {
     font-family: Arial, sans-serif;
     background-color: #f0f0f0;
@@ -6,6 +6,7 @@ body {
     padding: 0;
 }
 
+/* Dashboard Styles */
 .dashboard-container {
     max-width: 100%;
     margin: 0 auto;
@@ -42,6 +43,7 @@ body {
     transform: translateY(-5px);
 }
 
+/* Specific Card Styles */
 #upload-assignment-card,
 #communicate-card,
 #schedule-card {
@@ -63,7 +65,7 @@ body {
     color: white;
 }
 
-/* Media Query for Mobile Devices */
+/* Responsive Design for Tablets */
 @media (max-width: 768px) {
     .card {
         width: calc(50% - 20px);
@@ -74,7 +76,7 @@ body {
     }
 }
 
-/* Media Query for Smaller Mobile Devices */
+/* Responsive Design for Mobile Devices */
 @media (max-width: 480px) {
     .card {
         width: 100%;

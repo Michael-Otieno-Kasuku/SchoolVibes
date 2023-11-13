@@ -14,13 +14,17 @@ body {
     align-items: center;
 }
 
-.camera-feed {
+.camera-feed,
+.incident-report-form,
+.emergency-contact-numbers {
     width: 80%;
+}
+
+.camera-feed {
     margin-bottom: 20px;
 }
 
 .incident-report-form {
-    width: 80%;
     padding: 20px;
     background-color: #ffffff;
     border-radius: 5px;
@@ -35,7 +39,6 @@ body {
 }
 
 .emergency-contact-numbers {
-    width: 80%;
     margin-top: 20px;
 }
 
@@ -55,10 +58,7 @@ body {
         padding: 10px;
     }
 
-    .incident-report-form textarea {
-        font-size: 14px;
-    }
-
+    .incident-report-form textarea,
     .emergency-contact-numbers li {
         font-size: 14px;
     }

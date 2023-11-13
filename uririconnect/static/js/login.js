@@ -1,11 +1,12 @@
-// login.js
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const loginForm = document.getElementById('login-form');
-    loginForm.addEventListener('submit', function(event) {
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
+    loginForm.addEventListener('submit', function (event) {
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
 
-        // Regular expression patterns for email and password validation
+        const email = emailInput.value.trim();
+        const password = passwordInput.value.trim();
+
         const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
 

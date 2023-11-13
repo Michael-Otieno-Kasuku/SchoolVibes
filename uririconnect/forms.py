@@ -1,6 +1,6 @@
+import re
 from django import forms
 from .models import User, Role
-
 
 class UserLoginForm(forms.Form):
     email = forms.EmailField(
@@ -11,7 +11,6 @@ class UserLoginForm(forms.Form):
         widget=forms.PasswordInput(attrs={'class': 'form-control'}),
         required=True
     )
-
 
 class UserRegistrationForm(forms.ModelForm):
     role_id = forms.ModelChoiceField(
@@ -58,15 +57,14 @@ class UserRegistrationForm(forms.ModelForm):
 
         return cleaned_data
 
-
 class CustomPasswordResetForm(forms.Form):
     email = forms.EmailField(
         max_length=254,
         widget=forms.EmailInput(attrs={'class': 'form-control'}),
     )
+
     def clean_email(self):
         email = self.cleaned_data.get('email')
         if email and not User.objects.filter(email_address=email).exists():
             raise forms.ValidationError("Email address not found.")
         return email
-

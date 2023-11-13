@@ -1,23 +1,3 @@
-"""
-Module containing Django models for the database schema.
-
-This module defines the following models:
-- Roles: Represents different roles in the system.
-- Users: Represents user information, including authentication details.
-- Events: Represents events with associated details and organizers.
-- EventRegistrations: Represents user registrations for events.
-- Resources: Represents resources with titles, descriptions, and file paths.
-- Classes: Represents different classes with associated teachers.
-- Messages: Represents messages sent between users.
-- SecurityIncidents: Represents security incidents reported by users.
-- Assignments: Represents assignments with titles, descriptions, due dates, and associated teachers and classes.
-- Grades: Represents student grades for assignments.
-
-Each model corresponds to a table in the database schema and includes appropriate fields and relationships.
-
-Note: Some fields, such as user_password, are intended to store hashed passwords and should be handled securely in the application.
-"""
-
 from django.db import models
 
 class Role(models.Model):
@@ -31,7 +11,7 @@ class Role(models.Model):
 
 class User(models.Model):
     user_id = models.AutoField(primary_key=True)
-    role_id = models.ForeignKey(Role, on_delete=models.CASCADE)
+    role = models.ForeignKey(Role, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=50, null=False)
     last_name = models.CharField(max_length=50, null=False)
     email_address = models.EmailField(unique=True, null=False)
@@ -41,7 +21,7 @@ class User(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f'{self.first_name} {self.last_name}  {self.email_address}'
+        return f'{self.first_name} {self.last_name} {self.email_address}'
 
 class Event(models.Model):
     event_id = models.AutoField(primary_key=True)
@@ -49,23 +29,23 @@ class Event(models.Model):
     event_description = models.TextField(null=True)
     event_date = models.DateField(null=True)
     event_location = models.CharField(max_length=100, null=True)
-    organizer_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    organizer = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f'{self.title} {self.event_description}' 
+        return f'{self.title} {str(self.event_description)}'
 
 class EventRegistration(models.Model):
     event_reg_id = models.AutoField(primary_key=True)
-    event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     registration_date = models.DateField(null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.registration_date
+        return str(self.registration_date)
 
 class Resource(models.Model):
     resource_id = models.AutoField(primary_key=True)
@@ -77,12 +57,12 @@ class Resource(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f'{self.title} {self.resource_description}'
+        return f'{self.title} {str(self.resource_description)}'
 
 class Class(models.Model):
     class_id = models.AutoField(primary_key=True)
     class_name = models.CharField(max_length=50, null=False)
-    teacher_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    teacher = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -91,8 +71,8 @@ class Class(models.Model):
 
 class Message(models.Model):
     message_id = models.AutoField(primary_key=True)
-    sender_id = models.ForeignKey(User, related_name='sender_messages', on_delete=models.CASCADE)
-    receiver_id = models.ForeignKey(User, related_name='receiver_messages', on_delete=models.CASCADE)
+    sender = models.ForeignKey(User, related_name='sender_messages', on_delete=models.CASCADE)
+    receiver = models.ForeignKey(User, related_name='receiver_messages', on_delete=models.CASCADE)
     message_content = models.TextField(null=True)
     sent_at = models.DateTimeField(auto_now_add=True)
     is_read = models.BooleanField(default=False)
@@ -100,41 +80,42 @@ class Message(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.message_content
+        return str(self.message_content)
 
 class SecurityIncident(models.Model):
     security_id = models.AutoField(primary_key=True)
-    reporter_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    reporter = models.ForeignKey(User, on_delete=models.CASCADE)
     incident_details = models.TextField(null=True)
     time_reported = models.DateTimeField(auto_now_add=True)
-    report_status = models.CharField(max_length=20, choices=[('Reported', 'Reported'), ('Under Investigation', 'Under Investigation'), ('Resolved', 'Resolved')])
+    report_status_choices = [('Reported', 'Reported'), ('Under Investigation', 'Under Investigation'), ('Resolved', 'Resolved')]
+    report_status = models.CharField(max_length=20, choices=report_status_choices)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.incident_details
+        return str(self.incident_details)
 
 class Assignment(models.Model):
     assignment_id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=100, null=False)
     assignment_description = models.TextField(null=True)
     due_date = models.DateField(null=True)
-    teacher_id = models.ForeignKey(User, on_delete=models.CASCADE)
-    class_id = models.ForeignKey(Class, on_delete=models.CASCADE)
+    teacher = models.ForeignKey(User, on_delete=models.CASCADE)
+    class_associated = models.ForeignKey(Class, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f'{self.title} {self.assignment_description}'
+        return f'{self.title} {str(self.assignment_description)}'
 
 class Grade(models.Model):
     grade_id = models.AutoField(primary_key=True)
-    assignment_id = models.ForeignKey(Assignment, on_delete=models.CASCADE)
-    student_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE)
+    student = models.ForeignKey(User, on_delete=models.CASCADE)
     score = models.DecimalField(max_digits=5, decimal_places=2, null=True)
     grading_date = models.DateField(null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.score
+        return str(self.score)

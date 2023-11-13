@@ -11,18 +11,18 @@
 
 <body>
     <div class="dashboard-container">
-        <div class="camera-feed">
+        <section class="camera-feed">
             <iframe src="live_camera_feed_url_here" width="100%" height="500px" frameborder="0"></iframe>
-        </div>
-        <div class="incident-report-form">
+        </section>
+        <section class="incident-report-form">
             <h2>Incident Reporting Form</h2>
             <form id="incident-form">
                 <label for="incident-details">Incident Details:</label>
                 <textarea id="incident-details" name="incident_details" rows="4" cols="50" required></textarea><br>
                 <input type="submit" value="Submit Report">
             </form>
-        </div>
-        <div class="emergency-contact-numbers">
+        </section>
+        <section class="emergency-contact-numbers">
             <h2>Emergency Contact Numbers</h2>
             <ul>
                 <li>Police: 911</li>
@@ -30,7 +30,7 @@
                 <li>Ambulance: 911</li>
                 <!-- Add more emergency contact numbers as needed -->
             </ul>
-        </div>
+        </section>
     </div>
 
     <script src="{% static 'security_staff_dashboard.js' %}"></script>
