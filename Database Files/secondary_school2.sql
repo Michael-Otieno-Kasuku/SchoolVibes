@@ -1,4 +1,6 @@
 /*---------------PostgreSQL 13.10------------*/
+
+/*------------------Transaction to create the tables---------------*/
 /* Start a transaction */
 BEGIN;
 
@@ -161,6 +163,7 @@ INSERT INTO Roles (role_name) VALUES
     4: Parent
     5: Security Officer
 */
+/*------------------Transaction to insert data into the tables---------------*/
 BEGIN;
 
 /* Inserting 2 Admins */
@@ -666,6 +669,7 @@ VALUES
     (20, (SELECT user_id FROM Users WHERE email_address = 'tabithakorir3@example.com'), 88.0, '2023-12-25');
 COMMIT;
 
+/*------------------Transaction to create the views---------------*/
 /* Begin a new transaction */
 BEGIN;
 
@@ -706,6 +710,7 @@ JOIN Users ON Grades.student_id = Users.user_id;
 
 /* Commit the transaction */
 COMMIT;
+
 
 /* Begin a new transaction */
 BEGIN;
@@ -768,6 +773,7 @@ GROUP BY Users.user_id, first_name, last_name;
 /* Commit the transaction */
 COMMIT;
 
+/*------------------Transaction to create the stored procedures---------------*/
 /* Begin a new transaction */
 BEGIN;
 
@@ -931,6 +937,7 @@ COMMIT;
 /* Begin a new transaction */
 BEGIN;
 
+/*------------------Transaction to create triggers---------------*/
 /* Create a trigger function to update the 'updated_at' field for Users on each update */
 CREATE OR REPLACE FUNCTION update_users_updated_at()
 RETURNS TRIGGER AS $$
@@ -1056,10 +1063,10 @@ EXECUTE FUNCTION validate_grade_score_range();
 /* Commit the transaction */
 COMMIT;
 
+/*------------------Transaction that make use of relational algebra operations---------------*/
 /* Begin a new transaction */
 BEGIN;
 
-/* Sample queries using the defined triggers */
 SELECT * FROM Users WHERE role_id = (SELECT role_id FROM Roles WHERE role_name = 'Student');
 
 SELECT DISTINCT first_name, last_name, email_address FROM Users;
