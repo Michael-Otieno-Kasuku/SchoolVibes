@@ -679,31 +679,32 @@ VALUES
 
 COMMIT;
 
+/*------------------Transaction to create the views---------------*/
 /* Begin a new transaction */
-BEGIN TRANSACTION;
+BEGIN;
 
 /* Create a view to display Users with their assigned Roles */
 CREATE VIEW UserWithRole AS
-SELECT Users.user_id, first_name, last_name, email_address, role_name
+SELECT DISTINCT Users.user_id, first_name, last_name, email_address, role_name
 FROM Users
 JOIN Roles ON Users.role_id = Roles.role_id;
 
 /* Create a view to display Events with their Organizers' details */
 CREATE VIEW EventWithOrganizer AS
-SELECT Events.event_id, title, event_description, event_date, event_location, organizer_id, first_name as organizer_first_name, last_name as organizer_last_name
+SELECT DISTINCT Events.event_id, title, event_description, event_date, event_location, organizer_id, first_name as organizer_first_name, last_name as organizer_last_name
 FROM Events
 JOIN Users ON Events.organizer_id = Users.user_id;
 
 /* Create a view to display Event Registrations with Users' details */
 CREATE VIEW EventRegistrationsWithUsers AS
-SELECT Event_Registrations.event_reg_id, Events.title as event_title, Users.user_id, first_name, last_name, registration_date
+SELECT DISTINCT Event_Registrations.event_reg_id, Events.title as event_title, Users.user_id, first_name, last_name, registration_date
 FROM Event_Registrations
 JOIN Events ON Event_Registrations.event_id = Events.event_id
 JOIN Users ON Event_Registrations.user_id = Users.user_id;
 
 /* Create a view to display Messages with sender and receiver details */
 CREATE VIEW MessagesWithUsers AS
-SELECT Messages.message_id, sender_id, receiver_id, message_content, sent_at, is_read,
+SELECT DISTINCT Messages.message_id, sender_id, receiver_id, message_content, sent_at, is_read,
        sender.first_name AS sender_first_name, sender.last_name AS sender_last_name,
        receiver.first_name AS receiver_first_name, receiver.last_name AS receiver_last_name
 FROM Messages
@@ -712,7 +713,7 @@ JOIN Users AS receiver ON Messages.receiver_id = receiver.user_id;
 
 /* Create a view to display Grades with assignment details */
 CREATE VIEW GradesWithDetails AS
-SELECT Grades.grade_id, Assignments.title as assignment_title, Users.user_id as student_id, score, grading_date
+SELECT DISTINCT Grades.grade_id, Assignments.title as assignment_title, Users.user_id as student_id, score, grading_date
 FROM Grades
 JOIN Assignments ON Grades.assignment_id = Assignments.assignment_id
 JOIN Users ON Grades.student_id = Users.user_id;
@@ -720,33 +721,35 @@ JOIN Users ON Grades.student_id = Users.user_id;
 /* Commit the transaction */
 COMMIT;
 
-/* Begin a new transaction */
-BEGIN TRANSACTION;
 
-/* Create a view to display Users with their assigned Classes */
+/* Begin a new transaction */
+BEGIN;
+
+/* Create a view to display Users with their assigned Classes, avoiding duplicate records */
 CREATE VIEW UsersWithClasses AS
-SELECT Users.user_id, first_name, last_name, email_address, class_name
+SELECT DISTINCT Users.user_id, first_name, last_name, email_address, class_name
 FROM Users
 LEFT JOIN Assignments ON Users.user_id = Assignments.teacher_id
 LEFT JOIN Classes ON Assignments.class_id = Classes.class_id;
 
+
 /* Create a view to display Events with the count of registrations */
 CREATE VIEW EventsWithRegistrationCounts AS
-SELECT Events.event_id, title, event_description, event_date, event_location, organizer_id, COUNT(Event_Registrations.user_id) AS registration_count
+SELECT DISTINCT Events.event_id, title, event_description, event_date, event_location, organizer_id, COUNT(Event_Registrations.user_id) AS registration_count
 FROM Events
 LEFT JOIN Event_Registrations ON Events.event_id = Event_Registrations.event_id
 GROUP BY Events.event_id;
 
 /* Create a view to display Unresolved Security Incidents with reporter details */
 CREATE VIEW UnresolvedSecurityIncidents AS
-SELECT Security_Incidents.security_id, Users.user_id as reporter_id, first_name, last_name, incident_details, time_reported, report_status
+SELECT DISTINCT Security_Incidents.security_id, Users.user_id as reporter_id, first_name, last_name, incident_details, time_reported, report_status
 FROM Security_Incidents
 JOIN Users ON Security_Incidents.reporter_id = Users.user_id
 WHERE report_status IN ('Reported', 'Under Investigation');
 
 /* Create a view to display Students with their average grades */
 CREATE VIEW StudentsWithGrades AS
-SELECT Users.user_id, first_name, last_name, AVG(Grades.score) AS average_score
+SELECT DISTINCT Users.user_id, first_name, last_name, AVG(Grades.score) AS average_score
 FROM Users
 LEFT JOIN Grades ON Users.user_id = Grades.student_id
 WHERE Users.role_id = (SELECT role_id FROM Roles WHERE role_name = 'Student')
@@ -754,7 +757,7 @@ GROUP BY Users.user_id;
 
 /* Create a view to display Top Event Organizers with registration counts */
 CREATE VIEW TopEventOrganizers AS
-SELECT organizer_id, first_name, last_name, COUNT(event_reg_id) AS registration_count
+SELECT DISTINCT organizer_id, first_name, last_name, COUNT(event_reg_id) AS registration_count
 FROM Users
 JOIN Events ON Users.user_id = Events.organizer_id
 LEFT JOIN Event_Registrations ON Events.event_id = Event_Registrations.event_id
@@ -763,7 +766,7 @@ ORDER BY registration_count DESC;
 
 /* Create a view to display Classes with average scores */
 CREATE VIEW ClassesWithAverageScores AS
-SELECT Classes.class_id, class_name, AVG(Grades.score) AS average_score
+SELECT DISTINCT Classes.class_id, class_name, AVG(Grades.score) AS average_score
 FROM Classes
 LEFT JOIN Assignments ON Classes.class_id = Assignments.class_id
 LEFT JOIN Grades ON Assignments.assignment_id = Grades.assignment_id
@@ -772,7 +775,7 @@ ORDER BY average_score DESC;
 
 /* Create a view to display Users with the timestamp of their latest message */
 CREATE VIEW UsersWithLatestMessage AS
-SELECT Users.user_id, first_name, last_name, MAX(sent_at) AS latest_message_time
+SELECT DISTINCT Users.user_id, first_name, last_name, MAX(sent_at) AS latest_message_time
 FROM Users
 LEFT JOIN Messages ON Users.user_id = Messages.sender_id OR Users.user_id = Messages.receiver_id
 GROUP BY Users.user_id, first_name, last_name;
@@ -780,6 +783,7 @@ GROUP BY Users.user_id, first_name, last_name;
 /* Commit the transaction */
 COMMIT;
 
+/*------------------Transaction to create the stored procedures---------------*/
 /* Begin a new transaction */
 BEGIN TRANSACTION;
 
@@ -935,6 +939,7 @@ EXEC ReportSecurityIncident 6, 'Unauthorized access attempt'; /* Assuming user_i
 /* Commit the transaction */
 COMMIT TRANSACTION;
 
+/*------------------Transaction to create triggers---------------*/
 /* Begin a new transaction */
 BEGIN TRANSACTION;
 
@@ -1050,52 +1055,52 @@ END;
 /* Commit the transaction */
 COMMIT TRANSACTION;
 
+/*------------------Transaction that make use of relational algebra operations---------------*/
 /* Begin a new transaction */
-BEGIN TRANSACTION;
+BEGIN;
 
-/* Sample queries using the defined triggers */
 SELECT * FROM Users WHERE role_id = (SELECT role_id FROM Roles WHERE role_name = 'Student');
 
-SELECT first_name, last_name, email_address FROM Users;
+SELECT DISTINCT first_name, last_name, email_address FROM Users;
 
-SELECT user_id FROM Event_Registrations
+SELECT DISTINCT user_id FROM Event_Registrations
 UNION
 SELECT student_id FROM Grades;
 
-SELECT organizer_id FROM Events
+SELECT DISTINCT organizer_id FROM Events
 INTERSECT
 SELECT reporter_id FROM Security_Incidents;
 
-SELECT user_id FROM Users
+SELECT DISTINCT user_id FROM Users
 EXCEPT
 SELECT user_id FROM Event_Registrations;
 
-SELECT Users.user_id, Events.organizer_id
+SELECT DISTINCT Users.user_id, Events.organizer_id
 FROM Users, Events
 WHERE Users.user_id = Events.organizer_id;
 
-SELECT Assignments.assignment_id, title, score
+SELECT DISTINCT Assignments.assignment_id, title, score
 FROM Assignments
 JOIN Grades ON Assignments.assignment_id = Grades.assignment_id;
 
-/* Uncommented query - uncomment based on your requirements */
-/* SELECT user_id AS participant_id, sender_id, receiver_id, message_content
-FROM Messages; */
+/* Commented query - uncomment based on your requirements */
+/*SELECT user_id AS participant_id, sender_id, receiver_id, message_content
+FROM Messages;*/
 
 /* Commit the transaction */
-COMMIT TRANSACTION;
+COMMIT;
 
 /* Begin a new transaction */
-BEGIN TRANSACTION;
+BEGIN;
 
 /* Select users with the role of 'Student' who have registered for events */
-SELECT first_name, last_name, email_address
+SELECT DISTINCT first_name, last_name, email_address
 FROM Users
 WHERE role_id = (SELECT role_id FROM Roles WHERE role_name = 'Student')
 AND user_id IN (SELECT user_id FROM Event_Registrations);
 
 /* Select class IDs where there are no students (with the role of 'Student') who have not enrolled in the class */
-SELECT class_id
+SELECT DISTINCT class_id
 FROM Classes
 WHERE NOT EXISTS (
     SELECT user_id
@@ -1108,12 +1113,12 @@ WHERE NOT EXISTS (
 );
 
 /* Select assignment IDs and their average scores */
-SELECT assignment_id, AVG(score) AS average_score
+SELECT DISTINCT assignment_id, AVG(score) AS average_score
 FROM Grades
 GROUP BY assignment_id;
 
 /* Select the reporter ID and the count of security incidents reported, filtering by specific reporter IDs */
-SELECT reporter_id, COUNT(security_id) AS incidents_reported
+SELECT DISTINCT reporter_id, COUNT(security_id) AS incidents_reported
 FROM Security_Incidents
 GROUP BY reporter_id
 HAVING reporter_id IN (SELECT reporter_id FROM Security_Incidents);
@@ -1124,14 +1129,14 @@ FROM Users u1, Users u2
 WHERE u1.user_id < u2.user_id AND u1.last_name = u2.last_name;
 
 /* Select user details, role, and organizer rank based on event count */
-SELECT user_id, role_id, first_name, last_name, email_address,
+SELECT DISTINCT user_id, role_id, first_name, last_name, email_address,
        RANK() OVER (ORDER BY COUNT(event_id) DESC) AS organizer_rank
 FROM Users
 LEFT JOIN Events ON Users.user_id = Events.organizer_id
 GROUP BY user_id, role_id, first_name, last_name, email_address;
 
 /* Commit the transaction */
-COMMIT TRANSACTION;
+COMMIT;
 
 /*
     Selection (σ) and Projection (π):
@@ -1139,35 +1144,35 @@ COMMIT TRANSACTION;
         Relational Algebra: σ(role_id = (σ(role_name = 'Student')(Roles))) (Selection followed by Projection)
 
     Projection (π):
-        Query: SELECT first_name, last_name, email_address FROM Users;
+        Query: SELECT DISTINCT first_name, last_name, email_address FROM Users;
         Relational Algebra: π(first_name, last_name, email_address)(Users)
 
     Union (⋃) and Projection (π):
-        Query: SELECT user_id FROM Event_Registrations UNION SELECT student_id FROM Grades;
+        Query: SELECT DISTINCT user_id FROM Event_Registrations UNION SELECT student_id FROM Grades;
         Relational Algebra: π(user_id)((σ(role_name = 'Student')(Users)) ⋃ (σ(role_name = 'Student')(Grades)))
 
     Intersection (∩):
-        Query: SELECT organizer_id FROM Events INTERSECT SELECT reporter_id FROM Security_Incidents;
+        Query: SELECT DISTINCT organizer_id FROM Events INTERSECT SELECT reporter_id FROM Security_Incidents;
         Relational Algebra: π(organizer_id)(Events) ∩ π(reporter_id)(Security_Incidents)
 
     Set Difference (-) and Projection (π):
-        Query: SELECT user_id FROM Users EXCEPT SELECT user_id FROM Event_Registrations;
+        Query: SELECT DISTINCT user_id FROM Users EXCEPT SELECT user_id FROM Event_Registrations;
         Relational Algebra: π(user_id)(Users) - π(user_id)(Event_Registrations)
 
     Equijoin (⨝):
-        Query: SELECT Users.user_id, Events.organizer_id FROM Users, Events WHERE Users.user_id = Events.organizer_id;
+        Query: SELECT DISTINCT Users.user_id, Events.organizer_id FROM Users, Events WHERE Users.user_id = Events.organizer_id;
         Relational Algebra: Users ⨝(user_id = organizer_id) Events
 
     Natural Join (⨝):
-        Query: SELECT Assignments.assignment_id, title, score FROM Assignments JOIN Grades ON Assignments.assignment_id = Grades.assignment_id;
+        Query: SELECT DISTINCT Assignments.assignment_id, title, score FROM Assignments JOIN Grades ON Assignments.assignment_id = Grades.assignment_id;
         Relational Algebra: Assignments ⨝(assignment_id = assignment_id) Grades
 
     Group By (γ), Aggregate Function (AVG), and Projection (π):
-        Query: SELECT assignment_id, AVG(score) AS average_score FROM Grades GROUP BY assignment_id;
+        Query: SELECT DISTINCT assignment_id, AVG(score) AS average_score FROM Grades GROUP BY assignment_id;
         Relational Algebra: π(assignment_id, AVG(score))(γ(assignment_id, AVG(score))(Grades))
 
     Group By (γ), Aggregate Function (COUNT), and Projection (π):
-        Query: SELECT reporter_id, COUNT(security_id) AS incidents_reported FROM Security_Incidents GROUP BY reporter_id;
+        Query: SELECT DISTINCT reporter_id, COUNT(security_id) AS incidents_reported FROM Security_Incidents GROUP BY reporter_id;
         Relational Algebra: π(reporter_id, COUNT(security_id))(γ(reporter_id, COUNT(security_id))(Security_Incidents))
 
     Distinct and Cartesian Product (×):
@@ -1190,7 +1195,7 @@ BEGIN;
    Find teachers who do not have students in their classes.
    Uses the division operation implicitly through nested NOT EXISTS subqueries.
 */
-SELECT DISTINCT U1.user_id AS teacher_id
+/*SELECT DISTINCT U1.user_id AS teacher_id
 FROM Users U1
 WHERE U1.role_id = (SELECT role_id FROM Roles WHERE role_name = 'Teacher')
   AND NOT EXISTS (
@@ -1205,12 +1210,12 @@ WHERE U1.role_id = (SELECT role_id FROM Roles WHERE role_name = 'Teacher')
         WHERE U3.role_id = (SELECT role_id FROM Roles WHERE role_name = 'Student')
           AND C.teacher_id = U1.user_id
       )
-  );
+  );*/
 
 /*
    Find students with the maximum average score.
 */
-SELECT U.user_id, U.first_name, U.last_name, AVG(G.score) AS average_score
+SELECT DISTINCT U.user_id, U.first_name, U.last_name, AVG(G.score) AS average_score
 FROM Users U
 JOIN Grades G ON U.user_id = G.student_id
 WHERE U.role_id = (SELECT role_id FROM Roles WHERE role_name = 'Student')
@@ -1220,7 +1225,7 @@ HAVING AVG(G.score) = (SELECT MAX(avg_score) FROM (SELECT AVG(score) AS avg_scor
 /*
    Find teachers along with the count of their overdue assignments.
 */
-SELECT U.user_id, U.first_name, U.last_name, COUNT(A.assignment_id) AS overdue_assignments
+SELECT DISTINCT U.user_id, U.first_name, U.last_name, COUNT(A.assignment_id) AS overdue_assignments
 FROM Users U
 JOIN Assignments A ON U.user_id = A.teacher_id
 WHERE U.role_id = (SELECT role_id FROM Roles WHERE role_name = 'Teacher')
@@ -1230,7 +1235,7 @@ GROUP BY U.user_id, U.first_name, U.last_name;
 /*
    Find the user with the most security incidents reported.
 */
-SELECT U.user_id, U.first_name, U.last_name, COUNT(SI.security_id) AS incidents_reported
+SELECT DISTINCT U.user_id, U.first_name, U.last_name, COUNT(SI.security_id) AS incidents_reported
 FROM Users U
 LEFT JOIN Security_Incidents SI ON U.user_id = SI.reporter_id
 GROUP BY U.user_id, U.first_name, U.last_name
@@ -1245,15 +1250,11 @@ COMMIT;
 /*
 Find teachers who do not have students in their classes:
 
-sql
-
 π_teacher_id(U1) - π_teacher_id(π_student_id(U2 ⨝_{U3.class_id=A.class_id} A ⨝_{U3.user_id=G.student_id} G ⨝ U3))
 
 where π_teacher_id is the projection of user_id for teachers and ⨝ denotes the natural join.
 
 Find students with the maximum average score:
-
-sql
 
 π_user_id, first_name, last_name, average_score(σ_role_id='Student'(U ⨝_{U.user_id=G.student_id} G))
 
@@ -1261,15 +1262,11 @@ where σ_role_id='Student' is the selection for students, ⨝ is the natural joi
 
 Find teachers along with the count of their overdue assignments:
 
-sql
-
 π_user_id, first_name, last_name, COUNT(A.assignment_id)(σ_role_id='Teacher' ∧ A.due_date < CURRENT_DATE(U ⨝_{U.user_id=A.teacher_id} A))
 
 where σ_role_id='Teacher' is the selection for teachers, ⨝ is the natural join, and COUNT is the aggregation function.
 
 Find the user with the most security incidents reported:
-
-sql
 
     π_user_id, first_name, last_name, incidents_reported(γ_user_id, first_name, last_name, COUNT(SI.security_id)(U ⨝_{U.user_id=SI.reporter_id} SI))
 
@@ -1279,7 +1276,6 @@ These relational algebra expressions capture the essence of the SQL queries in a
 */
 
 /*
-sql
 
 π_teacher_id(U1) - π_teacher_id(π_student_id(U2 ⨝_{U3.class_id=A.class_id} A ⨝_{U3.user_id=G.student_id} G ⨝ U3))
 
