@@ -1132,3 +1132,51 @@ GROUP BY user_id, role_id, first_name, last_name, email_address;
 
 /* Commit the transaction */
 COMMIT TRANSACTION;
+
+/*
+    Selection (σ) and Projection (π):
+        Query: SELECT * FROM Users WHERE role_id = (SELECT role_id FROM Roles WHERE role_name = 'Student');
+        Relational Algebra: σ(role_id = (σ(role_name = 'Student')(Roles))) (Selection followed by Projection)
+
+    Projection (π):
+        Query: SELECT first_name, last_name, email_address FROM Users;
+        Relational Algebra: π(first_name, last_name, email_address)(Users)
+
+    Union (⋃) and Projection (π):
+        Query: SELECT user_id FROM Event_Registrations UNION SELECT student_id FROM Grades;
+        Relational Algebra: π(user_id)((σ(role_name = 'Student')(Users)) ⋃ (σ(role_name = 'Student')(Grades)))
+
+    Intersection (∩):
+        Query: SELECT organizer_id FROM Events INTERSECT SELECT reporter_id FROM Security_Incidents;
+        Relational Algebra: π(organizer_id)(Events) ∩ π(reporter_id)(Security_Incidents)
+
+    Set Difference (-) and Projection (π):
+        Query: SELECT user_id FROM Users EXCEPT SELECT user_id FROM Event_Registrations;
+        Relational Algebra: π(user_id)(Users) - π(user_id)(Event_Registrations)
+
+    Equijoin (⨝):
+        Query: SELECT Users.user_id, Events.organizer_id FROM Users, Events WHERE Users.user_id = Events.organizer_id;
+        Relational Algebra: Users ⨝(user_id = organizer_id) Events
+
+    Natural Join (⨝):
+        Query: SELECT Assignments.assignment_id, title, score FROM Assignments JOIN Grades ON Assignments.assignment_id = Grades.assignment_id;
+        Relational Algebra: Assignments ⨝(assignment_id = assignment_id) Grades
+
+    Group By (γ), Aggregate Function (AVG), and Projection (π):
+        Query: SELECT assignment_id, AVG(score) AS average_score FROM Grades GROUP BY assignment_id;
+        Relational Algebra: π(assignment_id, AVG(score))(γ(assignment_id, AVG(score))(Grades))
+
+    Group By (γ), Aggregate Function (COUNT), and Projection (π):
+        Query: SELECT reporter_id, COUNT(security_id) AS incidents_reported FROM Security_Incidents GROUP BY reporter_id;
+        Relational Algebra: π(reporter_id, COUNT(security_id))(γ(reporter_id, COUNT(security_id))(Security_Incidents))
+
+    Distinct and Cartesian Product (×):
+
+    Query: SELECT DISTINCT u1.user_id AS user1, u1.last_name, u2.user_id AS user2 FROM Users u1, Users u2 WHERE u1.user_id < u2.user_id AND u1.last_name = u2.last_name;
+    Relational Algebra: π(user1, last_name, user2)((Users × Users) - π(user1, last_name, user2)((σ(user1 < user2 AND last_name = last_name)(Users × Users))))
+
+    Window Function (RANK) and Projection (π):
+
+    Query: SELECT user_id, role_id, first_name, last_name, email_address, RANK() OVER (ORDER BY COUNT(event_id) DESC) AS organizer_rank FROM Users LEFT JOIN Events ON Users.user_id = Events.organizer_id GROUP BY user_id, role_id, first_name, last_name, email_address;
+    Relational Algebra: π(user_id, role_id, first_name, last_name, email_address, RANK() OVER (ORDER BY COUNT(event_id) DESC))(Users ⨝(user_id = organizer_id) Events)
+*/
