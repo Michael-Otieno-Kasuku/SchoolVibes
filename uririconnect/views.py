@@ -7,7 +7,7 @@ from django.http import JsonResponse
 from django.core.mail import send_mail
 from django.contrib.auth.views import PasswordResetView
 from .forms import CustomPasswordResetForm, UserRegistrationForm, UserLoginForm
-from .models import User
+from .models import Users  # Update the import statement to match your model name
 
 def index(request):
     return render(request, 'index.html')
@@ -65,9 +65,9 @@ def custom_password_reset_done_view(request):
 class CheckEmailExistenceView(View):
     def post(self, request):
         email = request.POST.get('email')
-        user_exists = User.objects.filter(email_address=email).exists()
+        user_exists = Users.objects.filter(email_address=email).exists()  # Update the model reference
         return JsonResponse({'exists': user_exists})
 
 def dashboard(request, role):
-    user = User.objects.get(pk=request.user.id)
+    user = Users.objects.get(pk=request.user.id)  # Update the model reference
     return render(request, f'{role}_dashboard.html', {'user': user})

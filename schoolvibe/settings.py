@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'schoolvibe.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'uririconnect',
+        'NAME': 'uririconnectdb',
         'USER': 'kasuku',
         'PASSWORD': 'Student2023@Mmust',
         'HOST': 'localhost',  # Set your PostgreSQL host address if it's not running on localhost

@@ -1,6 +1,8 @@
+# forms.py
+
 import re
 from django import forms
-from .models import User, Role
+from .models import Users, Roles
 
 class UserLoginForm(forms.Form):
     email = forms.EmailField(
@@ -14,7 +16,7 @@ class UserLoginForm(forms.Form):
 
 class UserRegistrationForm(forms.ModelForm):
     role_id = forms.ModelChoiceField(
-        queryset=Role.objects.all(),
+        queryset=Roles.objects.all(),
         to_field_name='role_id',
         empty_label=None,
         widget=forms.Select(attrs={'class': 'form-control select2-container'})
@@ -27,14 +29,18 @@ class UserRegistrationForm(forms.ModelForm):
         widget=forms.PasswordInput(attrs={'class': 'form-control'}),
         min_length=8
     )
+    phone_number = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        required=False  # You can set this to True if phone_number is required
+    )
 
     class Meta:
-        model = User
+        model = Users
         fields = ['role_id', 'first_name', 'last_name', 'email_address', 'user_password', 'confirm_password', 'phone_number']
 
     def clean_email_address(self):
         email = self.cleaned_data['email_address']
-        if User.objects.filter(email_address=email).exists():
+        if Users.objects.filter(email_address=email).exists():
             raise forms.ValidationError("Email already exists. Please use a different email address.")
         return email
 
@@ -65,6 +71,6 @@ class CustomPasswordResetForm(forms.Form):
 
     def clean_email(self):
         email = self.cleaned_data.get('email')
-        if email and not User.objects.filter(email_address=email).exists():
+        if email and not Users.objects.filter(email_address=email).exists():
             raise forms.ValidationError("Email address not found.")
         return email
