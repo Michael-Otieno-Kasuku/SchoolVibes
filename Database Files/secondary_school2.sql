@@ -1091,7 +1091,7 @@ SELECT DISTINCT Assignments.assignment_id, title, score
 FROM Assignments
 JOIN Grades ON Assignments.assignment_id = Grades.assignment_id;
 
-/* Uncommented query - uncomment based on your requirements */
+/* Commented query - uncomment based on your requirements */
 /*SELECT user_id AS participant_id, sender_id, receiver_id, message_content
 FROM Messages;*/
 
