@@ -1180,3 +1180,120 @@ COMMIT TRANSACTION;
     Query: SELECT user_id, role_id, first_name, last_name, email_address, RANK() OVER (ORDER BY COUNT(event_id) DESC) AS organizer_rank FROM Users LEFT JOIN Events ON Users.user_id = Events.organizer_id GROUP BY user_id, role_id, first_name, last_name, email_address;
     Relational Algebra: π(user_id, role_id, first_name, last_name, email_address, RANK() OVER (ORDER BY COUNT(event_id) DESC))(Users ⨝(user_id = organizer_id) Events)
 */
+
+/*
+   Begin a new transaction.
+*/
+BEGIN;
+
+/*
+   Find teachers who do not have students in their classes.
+   Uses the division operation implicitly through nested NOT EXISTS subqueries.
+*/
+SELECT DISTINCT U1.user_id AS teacher_id
+FROM Users U1
+WHERE U1.role_id = (SELECT role_id FROM Roles WHERE role_name = 'Teacher')
+  AND NOT EXISTS (
+    SELECT U2.user_id
+    FROM Users U2
+    WHERE U2.role_id = (SELECT role_id FROM Roles WHERE role_name = 'Student')
+      AND NOT EXISTS (
+        SELECT U3.user_id
+        FROM Users U3
+        JOIN Assignments A ON U3.user_id = A.student_id
+        JOIN Classes C ON A.class_id = C.class_id
+        WHERE U3.role_id = (SELECT role_id FROM Roles WHERE role_name = 'Student')
+          AND C.teacher_id = U1.user_id
+      )
+  );
+
+/*
+   Find students with the maximum average score.
+*/
+SELECT U.user_id, U.first_name, U.last_name, AVG(G.score) AS average_score
+FROM Users U
+JOIN Grades G ON U.user_id = G.student_id
+WHERE U.role_id = (SELECT role_id FROM Roles WHERE role_name = 'Student')
+GROUP BY U.user_id, U.first_name, U.last_name
+HAVING AVG(G.score) = (SELECT MAX(avg_score) FROM (SELECT AVG(score) AS avg_score FROM Grades GROUP BY student_id) AS avg_scores);
+
+/*
+   Find teachers along with the count of their overdue assignments.
+*/
+SELECT U.user_id, U.first_name, U.last_name, COUNT(A.assignment_id) AS overdue_assignments
+FROM Users U
+JOIN Assignments A ON U.user_id = A.teacher_id
+WHERE U.role_id = (SELECT role_id FROM Roles WHERE role_name = 'Teacher')
+  AND A.due_date < CURRENT_DATE
+GROUP BY U.user_id, U.first_name, U.last_name;
+
+/*
+   Find the user with the most security incidents reported.
+*/
+SELECT U.user_id, U.first_name, U.last_name, COUNT(SI.security_id) AS incidents_reported
+FROM Users U
+LEFT JOIN Security_Incidents SI ON U.user_id = SI.reporter_id
+GROUP BY U.user_id, U.first_name, U.last_name
+ORDER BY incidents_reported DESC
+LIMIT 1;
+
+/*
+   Commit the transaction.
+*/
+COMMIT;
+
+/*
+Find teachers who do not have students in their classes:
+
+sql
+
+π_teacher_id(U1) - π_teacher_id(π_student_id(U2 ⨝_{U3.class_id=A.class_id} A ⨝_{U3.user_id=G.student_id} G ⨝ U3))
+
+where π_teacher_id is the projection of user_id for teachers and ⨝ denotes the natural join.
+
+Find students with the maximum average score:
+
+sql
+
+π_user_id, first_name, last_name, average_score(σ_role_id='Student'(U ⨝_{U.user_id=G.student_id} G))
+
+where σ_role_id='Student' is the selection for students, ⨝ is the natural join, and average_score is the aggregation function.
+
+Find teachers along with the count of their overdue assignments:
+
+sql
+
+π_user_id, first_name, last_name, COUNT(A.assignment_id)(σ_role_id='Teacher' ∧ A.due_date < CURRENT_DATE(U ⨝_{U.user_id=A.teacher_id} A))
+
+where σ_role_id='Teacher' is the selection for teachers, ⨝ is the natural join, and COUNT is the aggregation function.
+
+Find the user with the most security incidents reported:
+
+sql
+
+    π_user_id, first_name, last_name, incidents_reported(γ_user_id, first_name, last_name, COUNT(SI.security_id)(U ⨝_{U.user_id=SI.reporter_id} SI))
+
+    where ⨝ is the natural join, γ is the grouping operation, and incidents_reported is the aggregation function.
+
+These relational algebra expressions capture the essence of the SQL queries in a more abstract mathematical form.
+*/
+
+/*
+sql
+
+π_teacher_id(U1) - π_teacher_id(π_student_id(U2 ⨝_{U3.class_id=A.class_id} A ⨝_{U3.user_id=G.student_id} G ⨝ U3))
+
+This query is a relational division operation, emulating the absence of certain records in a related table. In this context, it's identifying teachers who do not have students in any of their classes.
+
+Here's a breakdown:
+
+    U1 represents the set of all users with the role of 'Teacher'.
+    The nested part, U2 ⨝_{U3.class_id=A.class_id} A ⨝_{U3.user_id=G.student_id} G ⨝ U3, is joining several tables (U2, A, G, U3) to find students associated with teachers based on classes and assignments.
+    π_student_id then extracts the distinct set of student IDs from the result of the nested join.
+    The outer π_teacher_id(U1) extracts the distinct set of teacher IDs.
+    The subtraction - operation finds the teacher IDs that do not have corresponding students.
+
+So, in relational algebra terms, this is a division where the numerator is the set of all teachers, and the denominator is the set of teachers who have students in their classes. The result is teachers who do not have students in any of their classes.
+
+The relational division operation is often emulated using the natural join, selection, and projection operations to express a query that identifies tuples in one table for which there are no matching tuples in another table.
+*/
