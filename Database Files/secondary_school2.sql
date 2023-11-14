@@ -1,16 +1,4 @@
 /*---------------PostgreSQL 13.10------------*/
-/*access the postgresSQL terminal*/
-sudo -i -u postgres
-psql
-/* Create the database */
-CREATE DATABASE secondarydb;
-
-/* Grant all the permissions to user kasuku */
-GRANT ALL PRIVILEGES ON DATABASE secondarydb TO kasuku;
-
-/* Connect to the database as kasuku */
-psql -h localhost -U kasuku -d secondarydb -W
-
 /* Start a transaction */
 BEGIN;
 
@@ -1208,7 +1196,7 @@ BEGIN;
    Find teachers who do not have students in their classes.
    Uses the division operation implicitly through nested NOT EXISTS subqueries.
 */
-SELECT DISTINCT U1.user_id AS teacher_id
+/*SELECT DISTINCT U1.user_id AS teacher_id
 FROM Users U1
 WHERE U1.role_id = (SELECT role_id FROM Roles WHERE role_name = 'Teacher')
   AND NOT EXISTS (
@@ -1223,7 +1211,7 @@ WHERE U1.role_id = (SELECT role_id FROM Roles WHERE role_name = 'Teacher')
         WHERE U3.role_id = (SELECT role_id FROM Roles WHERE role_name = 'Student')
           AND C.teacher_id = U1.user_id
       )
-  );
+  );*/
 
 /*
    Find students with the maximum average score.
