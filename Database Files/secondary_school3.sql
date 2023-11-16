@@ -1,14 +1,4 @@
 /*---------------Microsoft SQL Server------------*/
-/* Create the database */
-CREATE DATABASE secondarydb;
-
-/* Use the database */
-USE secondarydb;
-
-/* Grant all the permissions to user kasuku */
-CREATE LOGIN kasuku WITH PASSWORD = 'your_password';
-CREATE USER kasuku FOR LOGIN kasuku;
-ALTER ROLE kasuku ADD MEMBER db_owner;
 
 /* Create Roles Table */
 CREATE TABLE Roles (
@@ -112,7 +102,6 @@ CREATE TABLE Security_Incidents (
     report_status VARCHAR(20) CHECK (report_status IN ('Reported', 'Under Investigation', 'Resolved')),
     created_at DATETIME DEFAULT GETDATE(),
     updated_at DATETIME DEFAULT GETDATE(),
-    UNIQUE (reporter_id, incident_details),
     FOREIGN KEY (reporter_id) REFERENCES Users(user_id)
 );
 
@@ -167,7 +156,7 @@ INSERT INTO Roles (role_name) VALUES
     4: Parent
     5: Security Officer
 */
-BEGIN;
+BEGIN TRANSACTION;
 
 /* Inserting 2 Admins */
 INSERT INTO Users (role_id, first_name, last_name, email_address, user_password)
@@ -235,9 +224,9 @@ VALUES
     ((SELECT role_id FROM Roles WHERE role_name = 'Security Officer'), 'Kamau', 'Njoroge', 'kamaunjoroge5@example.com', 'security_password'),
     ((SELECT role_id FROM Roles WHERE role_name = 'Security Officer'), 'Waweru', 'Omondi', 'waweruomondi5@example.com', 'security_password');
 
-COMMIT;
+COMMIT TRANSACTION;
 
-BEGIN;
+BEGIN TRANSACTION;
 
 /*
    Inserting phone numbers for Admins
@@ -315,9 +304,9 @@ VALUES
     ((SELECT user_id FROM Users WHERE email_address = 'kamaunjoroge5@example.com'), '+7890123453'),
     ((SELECT user_id FROM Users WHERE email_address = 'waweruomondi5@example.com'), '+2345678904');
 
-COMMIT;
+COMMIT TRANSACTION;
 
-BEGIN;
+BEGIN TRANSACTION;
 /* Inserting events for School Assemblies organized by Admins */
 INSERT INTO Events (title, event_description, event_date, event_location, organizer_id)
 VALUES
@@ -344,10 +333,10 @@ VALUES
     ('Mathematics Olympiad', 'Competition to showcase mathematical skills', '2024-03-25', 'Classrooms', (SELECT user_id FROM Users WHERE email_address = 'eunicemwende2@example.com')),
     ('Debate Competition', 'Inter-school debate competition', '2024-04-05', 'School Hall', (SELECT user_id FROM Users WHERE email_address = 'josephkamau2@example.com')),
     ('Career Guidance Seminar', 'Seminar to guide students on career choices', '2024-04-20', 'School Auditorium', (SELECT user_id FROM Users WHERE email_address = 'kamaunjoroge2@example.com'));
-COMMIT;
+COMMIT TRANSACTION;
 
 /* Inserting 30 Event Registrations */
-BEGIN;
+BEGIN TRANSACTION;
 /* Event 1 - Monthly Assembly */
 INSERT INTO Event_Registrations (event_id, user_id, registration_date)
 VALUES
@@ -403,7 +392,7 @@ VALUES
     ((SELECT event_id FROM Events WHERE title = 'Drama Club Performance'), (SELECT user_id FROM Users WHERE email_address = 'tabithakorir3@example.com'), '2024-02-02'),
     ((SELECT event_id FROM Events WHERE title = 'Drama Club Performance'), (SELECT user_id FROM Users WHERE email_address = 'wanjiruogutu5@example.com'), '2024-02-03');
     /* Add more registrations as needed */
-COMMIT;
+COMMIT TRANSACTION;
 
 BEGIN TRANSACTION;
 
@@ -489,9 +478,9 @@ VALUES
     ((SELECT user_id FROM Users WHERE email_address = 'rachelwanjiru3@example.com'), 'Resource Title 30', 'Description for Resource 30', '/path/to/resource30');
     /* Add more resources as needed */
 
-COMMIT;
+COMMIT TRANSACTION;
 
-BEGIN;
+BEGIN TRANSACTION;
 /* Inserting 20 Classes */
 
 /* Class 1 */
@@ -538,7 +527,7 @@ VALUES
     ('Swahili Class AC', (SELECT user_id FROM Users WHERE email_address = 'josephkamau2@example.com')),
     ('Portuguese Class AD', (SELECT user_id FROM Users WHERE email_address = 'kamaunjoroge2@example.com'));
     /* Add more classes as needed */
-COMMIT;
+COMMIT TRANSACTION;
 
 BEGIN TRANSACTION;
 
@@ -547,41 +536,41 @@ BEGIN TRANSACTION;
 /* Message 1-10: Admins to Teachers */
 INSERT INTO Messages (sender_id, receiver_id, message_content, is_read)
 VALUES
-    ((SELECT user_id FROM Users WHERE email_address = 'johnkamau1@example.com'), (SELECT user_id FROM Users WHERE email_address = 'davidochieng2@example.com'), 'Hello David, how are you?', FALSE),
-    ((SELECT user_id FROM Users WHERE email_address = 'marywanjiku1@example.com'), (SELECT user_id FROM Users WHERE email_address = 'janemuthoni2@example.com'), 'Hi Jane, do you have a moment?', FALSE),
-    ((SELECT user_id FROM Users WHERE email_address = 'johnkamau1@example.com'), (SELECT user_id FROM Users WHERE email_address = 'alicekorir2@example.com'), 'Alice, could you assist with the new curriculum?', FALSE),
-    ((SELECT user_id FROM Users WHERE email_address = 'marywanjiku1@example.com'), (SELECT user_id FROM Users WHERE email_address = 'brianmaina2@example.com'), 'Brian, let us discuss the upcoming parent-teacher meeting.', FALSE),
-    ((SELECT user_id FROM Users WHERE email_address = 'johnkamau1@example.com'), (SELECT user_id FROM Users WHERE email_address = 'gracewambui2@example.com'), 'Grace, any updates on the school event?', FALSE),
-    ((SELECT user_id FROM Users WHERE email_address = 'marywanjiku1@example.com'), (SELECT user_id FROM Users WHERE email_address = 'cynthianyambura2@example.com'), 'Cynthia, please share the latest student progress report.', FALSE),
-    ((SELECT user_id FROM Users WHERE email_address = 'johnkamau1@example.com'), (SELECT user_id FROM Users WHERE email_address = 'danielogutu2@example.com'), 'Daniel, can we meet to discuss security measures?', FALSE),
-    ((SELECT user_id FROM Users WHERE email_address = 'marywanjiku1@example.com'), (SELECT user_id FROM Users WHERE email_address = 'eunicemwende2@example.com'), 'Eunice, any incidents reported recently?', FALSE),
-    ((SELECT user_id FROM Users WHERE email_address = 'johnkamau1@example.com'), (SELECT user_id FROM Users WHERE email_address = 'josephkamau2@example.com'), 'Joseph, how are you managing your class?', FALSE),
-    ((SELECT user_id FROM Users WHERE email_address = 'marywanjiku1@example.com'), (SELECT user_id FROM Users WHERE email_address = 'kamaunjoroge2@example.com'), 'Kamau, any challenges with the students?', FALSE),
+    ((SELECT user_id FROM Users WHERE email_address = 'johnkamau1@example.com'), (SELECT user_id FROM Users WHERE email_address = 'davidochieng2@example.com'), 'Hello David, how are you?', 0),
+    ((SELECT user_id FROM Users WHERE email_address = 'marywanjiku1@example.com'), (SELECT user_id FROM Users WHERE email_address = 'janemuthoni2@example.com'), 'Hi Jane, do you have a moment?', 0),
+    ((SELECT user_id FROM Users WHERE email_address = 'johnkamau1@example.com'), (SELECT user_id FROM Users WHERE email_address = 'alicekorir2@example.com'), 'Alice, could you assist with the new curriculum?', 0),
+    ((SELECT user_id FROM Users WHERE email_address = 'marywanjiku1@example.com'), (SELECT user_id FROM Users WHERE email_address = 'brianmaina2@example.com'), 'Brian, let us discuss the upcoming parent-teacher meeting.', 0),
+    ((SELECT user_id FROM Users WHERE email_address = 'johnkamau1@example.com'), (SELECT user_id FROM Users WHERE email_address = 'gracewambui2@example.com'), 'Grace, any updates on the school event?', 0),
+    ((SELECT user_id FROM Users WHERE email_address = 'marywanjiku1@example.com'), (SELECT user_id FROM Users WHERE email_address = 'cynthianyambura2@example.com'), 'Cynthia, please share the latest student progress report.', 0),
+    ((SELECT user_id FROM Users WHERE email_address = 'johnkamau1@example.com'), (SELECT user_id FROM Users WHERE email_address = 'danielogutu2@example.com'), 'Daniel, can we meet to discuss security measures?', 0),
+    ((SELECT user_id FROM Users WHERE email_address = 'marywanjiku1@example.com'), (SELECT user_id FROM Users WHERE email_address = 'eunicemwende2@example.com'), 'Eunice, any incidents reported recently?', 0),
+    ((SELECT user_id FROM Users WHERE email_address = 'johnkamau1@example.com'), (SELECT user_id FROM Users WHERE email_address = 'josephkamau2@example.com'), 'Joseph, how are you managing your class?', 0),
+    ((SELECT user_id FROM Users WHERE email_address = 'marywanjiku1@example.com'), (SELECT user_id FROM Users WHERE email_address = 'kamaunjoroge2@example.com'), 'Kamau, any challenges with the students?', 0),
 
 /* Message 11-20: Teachers to Students */
-    ((SELECT user_id FROM Users WHERE email_address = 'davidochieng2@example.com'), (SELECT user_id FROM Users WHERE email_address = 'brianmaina3@example.com'), 'Brian, please review the last lecture.', FALSE),
-    ((SELECT user_id FROM Users WHERE email_address = 'janemuthoni2@example.com'), (SELECT user_id FROM Users WHERE email_address = 'gracewambui3@example.com'), 'Grace, do not forget about the upcoming test.', FALSE),
-    ((SELECT user_id FROM Users WHERE email_address = 'alicekorir2@example.com'), (SELECT user_id FROM Users WHERE email_address = 'cynthianyambura3@example.com'), 'Cynthia, your project submission is due next week.', FALSE),
-    ((SELECT user_id FROM Users WHERE email_address = 'brianmaina2@example.com'), (SELECT user_id FROM Users WHERE email_address = 'dennismwangi3@example.com'), 'Dennis, any questions about the assignment?', FALSE),
-    ((SELECT user_id FROM Users WHERE email_address = 'gracewambui2@example.com'), (SELECT user_id FROM Users WHERE email_address = 'estherwanjiru3@example.com'), 'Esther, make sure to attend the extra class for clarification.', FALSE),
-    ((SELECT user_id FROM Users WHERE email_address = 'cynthianyambura2@example.com'), (SELECT user_id FROM Users WHERE email_address = 'felixkiprop3@example.com'), 'Felix, your participation in the science fair is appreciated.', FALSE),
-    ((SELECT user_id FROM Users WHERE email_address = 'danielogutu2@example.com'), (SELECT user_id FROM Users WHERE email_address = 'gladysmuthoni3@example.com'), 'Gladys, keep up the good work!', FALSE),
-    ((SELECT user_id FROM Users WHERE email_address = 'eunicemwende2@example.com'), (SELECT user_id FROM Users WHERE email_address = 'harrisonomondi3@example.com'), 'Harrison, prepare for the upcoming quiz.', FALSE),
-    ((SELECT user_id FROM Users WHERE email_address = 'josephkamau2@example.com'), (SELECT user_id FROM Users WHERE email_address = 'irenekorir3@example.com'), 'Irene, any issues in your class? Let me know.', FALSE),
-    ((SELECT user_id FROM Users WHERE email_address = 'kamaunjoroge2@example.com'), (SELECT user_id FROM Users WHERE email_address = 'jacklinekamau3@example.com'), 'Jackline, keep up the positive attitude in class.', FALSE),
+    ((SELECT user_id FROM Users WHERE email_address = 'davidochieng2@example.com'), (SELECT user_id FROM Users WHERE email_address = 'brianmaina3@example.com'), 'Brian, please review the last lecture.', 0),
+    ((SELECT user_id FROM Users WHERE email_address = 'janemuthoni2@example.com'), (SELECT user_id FROM Users WHERE email_address = 'gracewambui3@example.com'), 'Grace, do not forget about the upcoming test.', 0),
+    ((SELECT user_id FROM Users WHERE email_address = 'alicekorir2@example.com'), (SELECT user_id FROM Users WHERE email_address = 'cynthianyambura3@example.com'), 'Cynthia, your project submission is due next week.', 0),
+    ((SELECT user_id FROM Users WHERE email_address = 'brianmaina2@example.com'), (SELECT user_id FROM Users WHERE email_address = 'dennismwangi3@example.com'), 'Dennis, any questions about the assignment?', 0),
+    ((SELECT user_id FROM Users WHERE email_address = 'gracewambui2@example.com'), (SELECT user_id FROM Users WHERE email_address = 'estherwanjiru3@example.com'), 'Esther, make sure to attend the extra class for clarification.', 0),
+    ((SELECT user_id FROM Users WHERE email_address = 'cynthianyambura2@example.com'), (SELECT user_id FROM Users WHERE email_address = 'felixkiprop3@example.com'), 'Felix, your participation in the science fair is appreciated.', 0),
+    ((SELECT user_id FROM Users WHERE email_address = 'danielogutu2@example.com'), (SELECT user_id FROM Users WHERE email_address = 'gladysmuthoni3@example.com'), 'Gladys, keep up the good work!', 0),
+    ((SELECT user_id FROM Users WHERE email_address = 'eunicemwende2@example.com'), (SELECT user_id FROM Users WHERE email_address = 'harrisonomondi3@example.com'), 'Harrison, prepare for the upcoming quiz.', 0),
+    ((SELECT user_id FROM Users WHERE email_address = 'josephkamau2@example.com'), (SELECT user_id FROM Users WHERE email_address = 'irenekorir3@example.com'), 'Irene, any issues in your class? Let me know.', 0),
+    ((SELECT user_id FROM Users WHERE email_address = 'kamaunjoroge2@example.com'), (SELECT user_id FROM Users WHERE email_address = 'jacklinekamau3@example.com'), 'Jackline, keep up the positive attitude in class.', 0),
 
 /* Message 21-30: Students to Parents */
-    ((SELECT user_id FROM Users WHERE email_address = 'brianmaina3@example.com'), (SELECT user_id FROM Users WHERE email_address = 'danielogutu4@example.com'), 'Dad, I need some money for school supplies.', FALSE),
-    ((SELECT user_id FROM Users WHERE email_address = 'gracewambui3@example.com'), (SELECT user_id FROM Users WHERE email_address = 'eunicemwende4@example.com'), 'Mom, can you sign my permission slip?', FALSE),
-    ((SELECT user_id FROM Users WHERE email_address = 'cynthianyambura3@example.com'), (SELECT user_id FROM Users WHERE email_address = 'josephkamau4@example.com'), 'Dad, I have a school project coming up.', FALSE),
-    ((SELECT user_id FROM Users WHERE email_address = 'dennismwangi3@example.com'), (SELECT user_id FROM Users WHERE email_address = 'janekiprono4@example.com'), 'Mom, I need help with my homework.', FALSE),
-    ((SELECT user_id FROM Users WHERE email_address = 'estherwanjiru3@example.com'), (SELECT user_id FROM Users WHERE email_address = 'simonwaweru4@example.com'), 'Dad, can you attend the parent-teacher meeting?', FALSE),
-    ((SELECT user_id FROM Users WHERE email_address = 'felixkiprop3@example.com'), (SELECT user_id FROM Users WHERE email_address = 'sarahwanjiru4@example.com'), 'Mom, I will be participating in a school event.', FALSE),
-    ((SELECT user_id FROM Users WHERE email_address = 'gladysmuthoni3@example.com'), (SELECT user_id FROM Users WHERE email_address = 'philipomondi4@example.com'), 'Dad, I need a new set of art supplies.', FALSE),
-    ((SELECT user_id FROM Users WHERE email_address = 'harrisonomondi3@example.com'), (SELECT user_id FROM Users WHERE email_address = 'hellenwambui4@example.com'), 'Mom, can you help me with my science project?', FALSE),
-    ((SELECT user_id FROM Users WHERE email_address = 'irenekorir3@example.com'), (SELECT user_id FROM Users WHERE email_address = 'georgemwangi4@example.com'), 'Dad, I got good grades in the recent exams.', FALSE),
-    ((SELECT user_id FROM Users WHERE email_address = 'jacklinekamau3@example.com'), (SELECT user_id FROM Users WHERE email_address = 'liliankorir4@example.com'), 'Mom, I need your signature on my report card.', FALSE);
-COMMIT;
+    ((SELECT user_id FROM Users WHERE email_address = 'brianmaina3@example.com'), (SELECT user_id FROM Users WHERE email_address = 'danielogutu4@example.com'), 'Dad, I need some money for school supplies.', 0),
+    ((SELECT user_id FROM Users WHERE email_address = 'gracewambui3@example.com'), (SELECT user_id FROM Users WHERE email_address = 'eunicemwende4@example.com'), 'Mom, can you sign my permission slip?', 0),
+    ((SELECT user_id FROM Users WHERE email_address = 'cynthianyambura3@example.com'), (SELECT user_id FROM Users WHERE email_address = 'josephkamau4@example.com'), 'Dad, I have a school project coming up.', 0),
+    ((SELECT user_id FROM Users WHERE email_address = 'dennismwangi3@example.com'), (SELECT user_id FROM Users WHERE email_address = 'janekiprono4@example.com'), 'Mom, I need help with my homework.', 0),
+    ((SELECT user_id FROM Users WHERE email_address = 'estherwanjiru3@example.com'), (SELECT user_id FROM Users WHERE email_address = 'simonwaweru4@example.com'), 'Dad, can you attend the parent-teacher meeting?', 0),
+    ((SELECT user_id FROM Users WHERE email_address = 'felixkiprop3@example.com'), (SELECT user_id FROM Users WHERE email_address = 'sarahwanjiru4@example.com'), 'Mom, I will be participating in a school event.', 0),
+    ((SELECT user_id FROM Users WHERE email_address = 'gladysmuthoni3@example.com'), (SELECT user_id FROM Users WHERE email_address = 'philipomondi4@example.com'), 'Dad, I need a new set of art supplies.', 0),
+    ((SELECT user_id FROM Users WHERE email_address = 'harrisonomondi3@example.com'), (SELECT user_id FROM Users WHERE email_address = 'hellenwambui4@example.com'), 'Mom, can you help me with my science project?', 0),
+    ((SELECT user_id FROM Users WHERE email_address = 'irenekorir3@example.com'), (SELECT user_id FROM Users WHERE email_address = 'georgemwangi4@example.com'), 'Dad, I got good grades in the recent exams.', 0),
+    ((SELECT user_id FROM Users WHERE email_address = 'jacklinekamau3@example.com'), (SELECT user_id FROM Users WHERE email_address = 'liliankorir4@example.com'), 'Mom, I need your signature on my report card.', 0);
+COMMIT TRANSACTION;
 
 BEGIN TRANSACTION;
 /* Inserting 10 Security Incidents */
@@ -601,7 +590,7 @@ VALUES
     ((SELECT user_id FROM Users WHERE email_address = 'mwendemuthoni5@example.com'), 'Unknown person in the school library.', 'Under Investigation'),
     ((SELECT user_id FROM Users WHERE email_address = 'mwendemuthoni5@example.com'), 'Report of missing school property.', 'Under Investigation'),
     ((SELECT user_id FROM Users WHERE email_address = 'mwendemuthoni5@example.com'), 'Resolved issue: Misplaced items found.', 'Resolved');
-COMMIT;
+COMMIT TRANSACTION;
 
 BEGIN TRANSACTION;
 
@@ -639,7 +628,7 @@ VALUES
     ('History Homework 2', 'Answer questions on a specific historical era.', '2023-12-19', (SELECT user_id FROM Users WHERE email_address = 'brianmaina2@example.com'), 4),
     ('History Final Exam', 'Comprehensive exam covering all history topics studied in the semester.', '2023-12-24', (SELECT user_id FROM Users WHERE email_address = 'brianmaina2@example.com'), 4);
 
-COMMIT;
+COMMIT TRANSACTION;
 
 BEGIN TRANSACTION;
 
@@ -677,11 +666,8 @@ VALUES
     (19, (SELECT user_id FROM Users WHERE email_address = 'samuelkiprop3@example.com'), 92.5, '2023-12-20'),
     (20, (SELECT user_id FROM Users WHERE email_address = 'tabithakorir3@example.com'), 88.0, '2023-12-25');
 
-COMMIT;
+COMMIT TRANSACTION;
 
-/*------------------Transaction to create the views---------------*/
-/* Begin a new transaction */
-BEGIN;
 
 /* Create a view to display Users with their assigned Roles */
 CREATE VIEW UserWithRole AS
@@ -691,7 +677,7 @@ JOIN Roles ON Users.role_id = Roles.role_id;
 
 /* Create a view to display Events with their Organizers' details */
 CREATE VIEW EventWithOrganizer AS
-SELECT DISTINCT Events.event_id, title, event_description, event_date, event_location, organizer_id, first_name as organizer_first_name, last_name as organizer_last_name
+SELECT  Events.event_id, title, event_description, event_date, event_location, organizer_id, first_name as organizer_first_name, last_name as organizer_last_name
 FROM Events
 JOIN Users ON Events.organizer_id = Users.user_id;
 
@@ -704,7 +690,7 @@ JOIN Users ON Event_Registrations.user_id = Users.user_id;
 
 /* Create a view to display Messages with sender and receiver details */
 CREATE VIEW MessagesWithUsers AS
-SELECT DISTINCT Messages.message_id, sender_id, receiver_id, message_content, sent_at, is_read,
+SELECT Messages.message_id, sender_id, receiver_id, message_content, sent_at, is_read,
        sender.first_name AS sender_first_name, sender.last_name AS sender_last_name,
        receiver.first_name AS receiver_first_name, receiver.last_name AS receiver_last_name
 FROM Messages
@@ -718,12 +704,7 @@ FROM Grades
 JOIN Assignments ON Grades.assignment_id = Assignments.assignment_id
 JOIN Users ON Grades.student_id = Users.user_id;
 
-/* Commit the transaction */
-COMMIT;
 
-
-/* Begin a new transaction */
-BEGIN;
 
 /* Create a view to display Users with their assigned Classes, avoiding duplicate records */
 CREATE VIEW UsersWithClasses AS
@@ -735,21 +716,26 @@ LEFT JOIN Classes ON Assignments.class_id = Classes.class_id;
 
 /* Create a view to display Events with the count of registrations */
 CREATE VIEW EventsWithRegistrationCounts AS
-SELECT DISTINCT Events.event_id, title, event_description, event_date, event_location, organizer_id, COUNT(Event_Registrations.user_id) AS registration_count
-FROM Events
-LEFT JOIN Event_Registrations ON Events.event_id = Event_Registrations.event_id
-GROUP BY Events.event_id;
+SELECT
+    Events.event_id,
+    COUNT(Event_Registrations.user_id) AS registration_count
+FROM
+    Events
+LEFT JOIN
+    Event_Registrations ON Events.event_id = Event_Registrations.event_id
+GROUP BY
+    Events.event_id;
 
 /* Create a view to display Unresolved Security Incidents with reporter details */
 CREATE VIEW UnresolvedSecurityIncidents AS
-SELECT DISTINCT Security_Incidents.security_id, Users.user_id as reporter_id, first_name, last_name, incident_details, time_reported, report_status
+SELECT Security_Incidents.security_id, Users.user_id as reporter_id, first_name, last_name, incident_details, time_reported, report_status
 FROM Security_Incidents
 JOIN Users ON Security_Incidents.reporter_id = Users.user_id
 WHERE report_status IN ('Reported', 'Under Investigation');
 
 /* Create a view to display Students with their average grades */
 CREATE VIEW StudentsWithGrades AS
-SELECT DISTINCT Users.user_id, first_name, last_name, AVG(Grades.score) AS average_score
+SELECT DISTINCT Users.user_id,AVG(Grades.score) AS average_score
 FROM Users
 LEFT JOIN Grades ON Users.user_id = Grades.student_id
 WHERE Users.role_id = (SELECT role_id FROM Roles WHERE role_name = 'Student')
@@ -761,8 +747,7 @@ SELECT DISTINCT organizer_id, first_name, last_name, COUNT(event_reg_id) AS regi
 FROM Users
 JOIN Events ON Users.user_id = Events.organizer_id
 LEFT JOIN Event_Registrations ON Events.event_id = Event_Registrations.event_id
-GROUP BY organizer_id, first_name, last_name
-ORDER BY registration_count DESC;
+GROUP BY organizer_id, first_name, last_name;
 
 /* Create a view to display Classes with average scores */
 CREATE VIEW ClassesWithAverageScores AS
@@ -770,8 +755,7 @@ SELECT DISTINCT Classes.class_id, class_name, AVG(Grades.score) AS average_score
 FROM Classes
 LEFT JOIN Assignments ON Classes.class_id = Assignments.class_id
 LEFT JOIN Grades ON Assignments.assignment_id = Grades.assignment_id
-GROUP BY Classes.class_id, class_name
-ORDER BY average_score DESC;
+GROUP BY Classes.class_id, class_name;
 
 /* Create a view to display Users with the timestamp of their latest message */
 CREATE VIEW UsersWithLatestMessage AS
@@ -780,12 +764,7 @@ FROM Users
 LEFT JOIN Messages ON Users.user_id = Messages.sender_id OR Users.user_id = Messages.receiver_id
 GROUP BY Users.user_id, first_name, last_name;
 
-/* Commit the transaction */
-COMMIT;
 
-/*------------------Transaction to create the stored procedures---------------*/
-/* Begin a new transaction */
-BEGIN TRANSACTION;
 
 /* Create a function to insert a new user into the Users table */
 CREATE OR ALTER PROCEDURE InsertUser
@@ -843,11 +822,6 @@ BEGIN
     UPDATE Security_Incidents SET report_status = 'Resolved' WHERE security_id = @in_security_id;
 END;
 
-/* Commit the transaction */
-COMMIT TRANSACTION;
-
-/* Begin a new transaction */
-BEGIN TRANSACTION;
 
 /* Invoke the previously created functions with sample data */
 EXEC InsertUser 'John', 'Doe', 'john.doe@example.com', 'password123', 1;
@@ -856,11 +830,6 @@ SELECT * FROM GetUserGradesForClass(3, 1);
 EXEC UpdateUserPassword 4, 'newpassword456';
 EXEC ResolveSecurityIncident 5;
 
-/* Commit the transaction */
-COMMIT TRANSACTION;
-
-/* Begin a new transaction */
-BEGIN TRANSACTION;
 
 /* Create a function to send a message with an unread indicator */
 CREATE OR ALTER PROCEDURE SendMessage
@@ -886,14 +855,12 @@ BEGIN
     SELECT @assignment_due_date = due_date FROM Assignments WHERE assignment_id = @in_assignment_id;
     IF @assignment_due_date IS NULL
     BEGIN
-        RAISEERROR('Assignment does not exist.', 16, 1);
         RETURN;
     END;
 
     /* Check if the assignment due date has passed */
     IF @assignment_due_date < GETDATE()
     BEGIN
-        RAISEERROR('Cannot assign grade for past-due assignment.', 16, 1);
         RETURN;
     END;
 
@@ -925,23 +892,11 @@ BEGIN
     PRINT 'Security incident reported. Admin email: ' + @admin_email;
 END;
 
-/* Commit the transaction */
-COMMIT TRANSACTION;
-
-/* Begin a new transaction */
-BEGIN TRANSACTION;
 
 /* Invoke the newly created functions with sample data */
 EXEC SendMessage 2, 3, 'Hello, how are you?'; /* Assuming user_id 2 is the sender and user_id 3 is the receiver */
 EXEC AssignGrade 1, 4, 95.5; /* Assuming assignment_id 1 exists, student_id 4 exists, and the due date has not passed */
 EXEC ReportSecurityIncident 6, 'Unauthorized access attempt'; /* Assuming user_id 6 reported a security incident */
-
-/* Commit the transaction */
-COMMIT TRANSACTION;
-
-/*------------------Transaction to create triggers---------------*/
-/* Begin a new transaction */
-BEGIN TRANSACTION;
 
 /* Create a trigger function to update the 'updated_at' field for Users on each update */
 CREATE OR ALTER TRIGGER users_updated_at_trigger
@@ -964,11 +919,11 @@ BEGIN
     INSERT INTO Event_Registrations (event_id, user_id, registration_date)
     SELECT event_id, user_id, registration_date
     FROM inserted
-    WHERE registration_date <= CURRENT_DATE;
+    WHERE registration_date <= CURRENT_TIMESTAMP;
     
     IF @@ROWCOUNT = 0
     BEGIN
-        RAISEERROR('Cannot register for future events.', 16, 1);
+        RETURN
     END;
 END;
 
@@ -993,11 +948,11 @@ BEGIN
     INSERT INTO Assignments (assignment_id, due_date)
     SELECT assignment_id, due_date
     FROM inserted
-    WHERE due_date >= CURRENT_DATE;
+    WHERE due_date >= CURRENT_TIMESTAMP;
     
     IF @@ROWCOUNT = 0
     BEGIN
-        RAISEERROR('Due date cannot be in the past.', 16, 1);
+        RETURN
     END;
 END;
 
@@ -1052,12 +1007,7 @@ BEGIN
     END;
 END;
 
-/* Commit the transaction */
-COMMIT TRANSACTION;
 
-/*------------------Transaction that make use of relational algebra operations---------------*/
-/* Begin a new transaction */
-BEGIN;
 
 SELECT * FROM Users WHERE role_id = (SELECT role_id FROM Roles WHERE role_name = 'Student');
 
@@ -1087,11 +1037,6 @@ JOIN Grades ON Assignments.assignment_id = Grades.assignment_id;
 /*SELECT user_id AS participant_id, sender_id, receiver_id, message_content
 FROM Messages;*/
 
-/* Commit the transaction */
-COMMIT;
-
-/* Begin a new transaction */
-BEGIN;
 
 /* Select users with the role of 'Student' who have registered for events */
 SELECT DISTINCT first_name, last_name, email_address
@@ -1135,8 +1080,6 @@ FROM Users
 LEFT JOIN Events ON Users.user_id = Events.organizer_id
 GROUP BY user_id, role_id, first_name, last_name, email_address;
 
-/* Commit the transaction */
-COMMIT;
 
 /*
     Selection (σ) and Projection (π):
@@ -1186,10 +1129,6 @@ COMMIT;
     Relational Algebra: π(user_id, role_id, first_name, last_name, email_address, RANK() OVER (ORDER BY COUNT(event_id) DESC))(Users ⨝(user_id = organizer_id) Events)
 */
 
-/*
-   Begin a new transaction.
-*/
-BEGIN;
 
 /*
    Find teachers who do not have students in their classes.
@@ -1229,23 +1168,19 @@ SELECT DISTINCT U.user_id, U.first_name, U.last_name, COUNT(A.assignment_id) AS 
 FROM Users U
 JOIN Assignments A ON U.user_id = A.teacher_id
 WHERE U.role_id = (SELECT role_id FROM Roles WHERE role_name = 'Teacher')
-  AND A.due_date < CURRENT_DATE
+  AND A.due_date < CURRENT_TIMESTAMP
 GROUP BY U.user_id, U.first_name, U.last_name;
 
 /*
    Find the user with the most security incidents reported.
 */
-SELECT DISTINCT U.user_id, U.first_name, U.last_name, COUNT(SI.security_id) AS incidents_reported
+SELECT TOP 1 U.user_id, U.first_name, U.last_name, COUNT(SI.security_id) AS incidents_reported
 FROM Users U
 LEFT JOIN Security_Incidents SI ON U.user_id = SI.reporter_id
 GROUP BY U.user_id, U.first_name, U.last_name
-ORDER BY incidents_reported DESC
-LIMIT 1;
+ORDER BY incidents_reported DESC;
 
-/*
-   Commit the transaction.
-*/
-COMMIT;
+
 
 /*
 Find teachers who do not have students in their classes:
