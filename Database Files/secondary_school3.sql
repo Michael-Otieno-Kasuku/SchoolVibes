@@ -1,4 +1,4 @@
-/*---------------Microsoft SQL Server------------*/
+/*---------------Microsoft SQL Server 2019------------*/
 
 /* Create Roles Table */
 CREATE TABLE Roles (
